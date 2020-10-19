@@ -112,7 +112,7 @@ module.exports = {
 
     if (count > MAX_COUNT_LIMIT) {
       console.info(`Не больше 1000 объявлений`);
-      process.exit(ExitCode.error);
+      process.exit(ExitCode.ERROR);
     }
 
     const countOffer = Number.parseInt(count, 10) || DEFAULT_COUNT;
@@ -121,11 +121,10 @@ module.exports = {
     fs.writeFile(FILE_NAME, content, (err) => {
       if (err) {
         console.error(`Can't write data to file...`);
-        process.exit(ExitCode.error);
+        process.exit(ExitCode.ERROR);
       }
 
       console.info(`Operation success. File created.`);
-      process.exit(ExitCode.success);
     });
   }
 };
