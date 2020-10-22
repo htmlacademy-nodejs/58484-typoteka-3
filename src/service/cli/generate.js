@@ -2,7 +2,10 @@
 
 const fs = require(`fs`).promises;
 const moment = require(`moment`);
-const {ExitCode} = require(`../../constants`);
+const {
+  ExitCode,
+  MOCKS_FILE_NAME,
+} = require(`../../constants`);
 const {ChalkTheme} = require(`./chalk-theme`);
 
 const {
@@ -19,7 +22,6 @@ const {
 
 const DEFAULT_COUNT = 1;
 const MAX_COUNT_LIMIT = 1000;
-const FILE_NAME = `mocks.json`;
 
 const MockFileName = {
   SENTENCES: `sentences.txt`,
@@ -52,13 +54,14 @@ const generateDate = () => {
 
 const getFileContent = async (fileName) => {
   try {
-    const data =  await fs.readFile(fileName, `utf8`);
+    const data = await fs.readFile(fileName, `utf8`);
 
     return data
       .trim()
       .split(`\n`);
   } catch (e) {
-    console.error(error(`Can't read data from file... ${e.message}`))
+    console.error(error(`Can't read data from file... ${e.message}`));
+    return [];
   }
 };
 
@@ -71,7 +74,7 @@ const getMockData = async () => {
     sentences,
     titles,
     categories,
-  }
+  };
 };
 
 const generateOffers = async (count) => {
@@ -87,18 +90,18 @@ const generateOffers = async (count) => {
     announce: shuffle(sentences).slice(1, 5).join(` `),
     fullText: shuffle(sentences).slice(1, getRandomInt(2, sentences.length - 1)).join(` `),
     category: getRandomItems(categories),
-  }))
+  }));
 };
 
 const createFile = async (content) => {
   try {
-    await fs.writeFile(FILE_NAME, content);
+    await fs.writeFile(MOCKS_FILE_NAME, content);
     console.info(success(`Operation success. File created.`));
   } catch (e) {
     console.error(error(`Can't write data to file... ${e.message}`));
     process.exit(ExitCode.ERROR);
   }
-}
+};
 
 module.exports = {
   name: `--generate`,
