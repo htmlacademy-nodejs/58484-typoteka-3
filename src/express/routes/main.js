@@ -2,7 +2,7 @@
 
 const {Router} = require(`express`);
 const mainRouter = new Router();
-const mainController = require(`../controllers/mainController`);
+const mainController = require(`../controllers/main-controller`);
 
 mainRouter.get(`/`, mainController.index);
 mainRouter.get(`/search`, mainController.showSearch);

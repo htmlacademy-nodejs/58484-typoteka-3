@@ -2,8 +2,8 @@
 
 const {Router} = require(`express`);
 const articlesRouter = new Router();
-const articleController = require(`../controllers/articleController`);
-const articleCategoryController = require(`../controllers/articleCategoryController`);
+const articleController = require(`../controllers/article-controller`);
+const articleCategoryController = require(`../controllers/article-category-controller`);
 
 articlesRouter.get(`/:id`, articleController.show);
 articlesRouter.get(`/edit/:id`, articleController.edit);
