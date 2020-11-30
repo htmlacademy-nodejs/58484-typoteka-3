@@ -1,25 +1,24 @@
 'use strict';
 
 const index = (req, res) => {
-  res.send(`/`);
+  res.render(`main`);
 };
 
 const showSearch = (req, res) => {
-  res.send(`/search`);
+  res.render(`search`);
 };
 
 const showLogin = (req, res) => {
-  res.send(`/login`);
-}
+  res.render(`login`);
+};
 
 const showRegister = (req, res) => {
-  res.send(`/register`);
-}
+  res.render(`sign-up`);
+};
 
 module.exports = {
   index,
   showSearch,
   showLogin,
   showRegister,
-}
-
+};

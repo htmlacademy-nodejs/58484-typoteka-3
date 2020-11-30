@@ -1,7 +1,8 @@
 'use strict';
 
 const show = (req, res) => {
-  res.send(`/articles/${req.params.id}`);
+  const {id} = req.params;
+  res.render(`post`, {id});
 };
 
 const edit = (req, res) => {
@@ -9,16 +10,16 @@ const edit = (req, res) => {
 };
 
 const create = (req, res) => {
-  res.send(`/articles/add`);
+  res.render(`new-post`);
 };
 
 const showArticlesByCategory = (req, res) => {
   res.send(`/articles/category/${req.params.id}`);
-}
+};
 
 module.exports = {
   show,
   edit,
   create,
   showArticlesByCategory,
-}
+};

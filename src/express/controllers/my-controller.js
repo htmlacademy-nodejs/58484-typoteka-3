@@ -1,12 +1,12 @@
 'use strict';
 
 const index = (req, res) => {
-  res.send(`/my`);
-}
+  res.render(`my`);
+};
 
 const showComments = (req, res) => {
-  res.send(`/my/comments`);
-}
+  res.render(`comments`);
+};
 
 module.exports = {
   index,

@@ -1,9 +1,9 @@
 'use strict';
 
 const index = (req, res) => {
-  res.send(`/categories`);
+  res.render(`all-categories`);
 };
 
 module.exports = {
   index,
-}
+};

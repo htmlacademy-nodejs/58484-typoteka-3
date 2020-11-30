@@ -2,9 +2,9 @@
 
 const show = (req, res) => {
   const categoryId = req.params.id;
-  res.send(`/articles/category/${categoryId}`);
-}
+  res.render(`articles-by-category`, {categoryId});
+};
 
 module.exports = {
   show,
-}
+};
