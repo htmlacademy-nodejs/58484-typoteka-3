@@ -20,7 +20,7 @@ const makeUniqueArray = (array) => {
   return Array.from(set);
 };
 
-const getRandomItems = (array, min = 0, max = array.length) => {
+const getRandomItems = (array, min = 1, max = array.length - 1) => {
   const items = Array(getRandomInt(min, max))
     .fill(``)
     .map(() => array[getRandomInt(min, max)]);

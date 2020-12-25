@@ -1,10 +1,12 @@
 'use strict';
 
+const {nanoid} = require(`nanoid`);
 const fs = require(`fs`).promises;
 const moment = require(`moment`);
 const {
   ExitCode,
   MOCKS_FILE_NAME,
+  MAX_ID_LENGTH,
 } = require(`../../constants`);
 const {ChalkTheme} = require(`./chalk-theme`);
 
@@ -27,6 +29,7 @@ const MockFileName = {
   SENTENCES: `sentences.txt`,
   TITLES: `titles.txt`,
   CATEGORIES: `categories.txt`,
+  COMMENTS: `comments.txt`,
 };
 
 const DateLimit = {
@@ -66,14 +69,36 @@ const getFileContent = async (fileName) => {
 };
 
 const getMockData = async () => {
-  const sentences = await getFileContent(`./data/${MockFileName.SENTENCES}`);
-  const titles = await getFileContent(`./data/${MockFileName.TITLES}`);
-  const categories = await getFileContent(`./data/${MockFileName.CATEGORIES}`);
+  const files = Object
+    .values(MockFileName)
+    .map((fileName) => getFileContent(`./data/${fileName}`));
+
+  const [
+    sentences,
+    titles,
+    categories,
+    comments,
+  ] = await Promise.all(files);
 
   return {
     sentences,
     titles,
     categories,
+    comments,
+  };
+};
+
+const generateComment = (comments) => {
+  const maxRowsCount = getRandomInt(1, comments.length);
+
+  const id = nanoid(MAX_ID_LENGTH);
+  const text = shuffle(comments)
+    .slice(0, maxRowsCount)
+    .join(` `);
+
+  return {
+    id,
+    text,
   };
 };
 
@@ -82,14 +107,17 @@ const generateOffers = async (count) => {
     sentences,
     titles,
     categories,
+    comments,
   } = await getMockData();
 
   return Array(count).fill({}).map(() => ({
+    id: nanoid(MAX_ID_LENGTH),
     title: titles[getRandomInt(0, titles.length - 1)],
     createdDate: generateDate(),
     announce: shuffle(sentences).slice(1, 5).join(` `),
     fullText: shuffle(sentences).slice(1, getRandomInt(2, sentences.length - 1)).join(` `),
     category: getRandomItems(categories),
+    comments: Array(getRandomInt(1, 5)).fill({}).map(() => generateComment(comments)),
   }));
 };
 
