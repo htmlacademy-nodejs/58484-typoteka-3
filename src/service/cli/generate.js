@@ -6,6 +6,7 @@ const moment = require(`moment`);
 const {
   ExitCode,
   MOCKS_FILE_NAME,
+  MAX_ID_LENGTH,
 } = require(`../../constants`);
 const {ChalkTheme} = require(`./chalk-theme`);
 
@@ -23,7 +24,6 @@ const {
 
 const DEFAULT_COUNT = 1;
 const MAX_COUNT_LIMIT = 1000;
-const MAX_ID_LENGTH = 6;
 
 const MockFileName = {
   SENTENCES: `sentences.txt`,
