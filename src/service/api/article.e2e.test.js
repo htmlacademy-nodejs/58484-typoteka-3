@@ -164,7 +164,7 @@ const newArticle = {
   title: `Дам погладить котика`,
   fullText: `Дам погладить котика. Дорого. Не гербалайф`,
   announce: `Дам погладить котика`,
-  createdDate: '2020-11-11 17:02:47'
+  createdDate: `2020-11-11 17:02:47`
 };
 
 describe(`service/api/article.js`, () => {
