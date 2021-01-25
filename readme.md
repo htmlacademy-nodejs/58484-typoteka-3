@@ -1,7 +1,7 @@
 # Личный проект «Типотека» [![Build status][travis-image]][travis-url]
 
 * Студент: [Василий Пономаренко](https://up.htmlacademy.ru/nodejs/3/user/58484).
-* Наставник: `Сергей Вохмянин`.
+* Наставник: [Алексей Балесный](https://htmlacademy.ru/profile/id221665).
 
 ---
 
