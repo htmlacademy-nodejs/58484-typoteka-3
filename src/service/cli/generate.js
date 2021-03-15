@@ -116,7 +116,7 @@ const generateOffers = async (count) => {
     createdDate: generateDate(),
     announce: shuffle(sentences).slice(1, 5).join(` `),
     fullText: shuffle(sentences).slice(1, getRandomInt(2, sentences.length - 1)).join(` `),
-    category: getRandomItems(categories),
+    category: getRandomItems(categories, 1, 4),
     comments: Array(getRandomInt(1, 5)).fill({}).map(() => generateComment(comments)),
   }));
 };
