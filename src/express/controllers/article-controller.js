@@ -39,8 +39,8 @@ const update = async (req, res) => {
   }
 
   try {
-    await api.updateArticle(articleData);
-    res.redirect(`back`);
+    const article = await api.updateArticle(articleData);
+    res.render(`post`, {article});
   } catch (err) {
     res.redirect(`back`);
   }
