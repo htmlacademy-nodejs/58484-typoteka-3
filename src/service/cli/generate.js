@@ -2,11 +2,13 @@
 
 const {nanoid} = require(`nanoid`);
 const fs = require(`fs`).promises;
-const moment = require(`moment`);
+const {generateDate} = require(`src/service/cli/factories/date-factory`);
+
 const {
   ExitCode,
   MOCKS_FILE_NAME,
   MAX_ID_LENGTH,
+  MockFileName,
 } = require(`../../constants`);
 const {ChalkTheme} = require(`./chalk-theme`);
 
@@ -24,36 +26,6 @@ const {
 
 const DEFAULT_COUNT = 1;
 const MAX_COUNT_LIMIT = 1000;
-
-const MockFileName = {
-  SENTENCES: `sentences.txt`,
-  TITLES: `titles.txt`,
-  CATEGORIES: `categories.txt`,
-  COMMENTS: `comments.txt`,
-};
-
-const DateLimit = {
-  DAYS: 90,
-  HOURS: 24,
-  MINUTES: 60,
-  SECONDS: 60,
-};
-
-const generateDate = () => {
-  const days = getRandomInt(1, DateLimit.DAYS);
-  const hours = getRandomInt(1, DateLimit.HOURS);
-  const minutes = getRandomInt(1, DateLimit.MINUTES);
-  const seconds = getRandomInt(1, DateLimit.SECONDS);
-
-  const date = moment();
-
-  date.subtract(days, `day`);
-  date.subtract(hours, `hour`);
-  date.subtract(minutes, `minute`);
-  date.subtract(seconds, `second`);
-
-  return date.format(`YYYY-MM-DD HH:mm:ss`);
-};
 
 const getFileContent = async (fileName) => {
   try {
