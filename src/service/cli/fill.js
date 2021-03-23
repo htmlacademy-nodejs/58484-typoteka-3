@@ -186,7 +186,6 @@ module.exports = {
           `('${text}', ${userId}, ${articleId})`
     ).join(`,\n`);
 
-
     const content = `
       INSERT INTO roles(title) VALUES
         ${roleValues};
