@@ -2,7 +2,7 @@
 
 const {nanoid} = require(`nanoid`);
 const fs = require(`fs`).promises;
-const {generateDate} = require(`src/service/cli/factories/date-factory`);
+const {generateDate} = require(`./factories/date-factory`);
 
 const {
   ExitCode,

@@ -2,7 +2,7 @@
 
 const fs = require(`fs`).promises;
 const {createUser} = require(`./factories/user-factory`);
-const {generateDate} = require(`src/service/cli/factories/date-factory`);
+const {generateDate} = require(`./factories/date-factory`);
 
 const {
   ExitCode,
@@ -28,6 +28,11 @@ const DEFAULT_COUNT = 1;
 const MAX_COUNT_LIMIT = 1000;
 const MAX_CATEGORY_LIMIT = 4;
 const USER_COUNT = 5;
+const USER_ROLES = [
+  `Гость`,
+  `Читатель`,
+  `Автор`,
+];
 
 const getFileContent = async (fileName) => {
   try {
@@ -62,12 +67,12 @@ const getMockData = async () => {
   };
 };
 
-const generateCategories = (categories) => (
-  categories.map((title, index) => ({
+const generateCategories = (categories) => {
+  return categories.map((title, index) => ({
     id: index + 1,
     title
-  }))
-);
+  }));
+};
 
 const generateComment = (comments, articleId, users) => {
   const maxRowsCount = getRandomInt(1, comments.length);
@@ -104,12 +109,6 @@ const generateArticles = async (count, users) => {
 };
 
 const generateRoles = () => {
-  const USER_ROLES = [
-    `Гость`,
-    `Читатель`,
-    `Автор`,
-  ];
-
   return USER_ROLES.map((title, index) => ({
     id: index + 1,
     title
@@ -186,7 +185,6 @@ module.exports = {
         ({text, userId, articleId}) =>
           `('${text}', ${userId}, ${articleId})`
     ).join(`,\n`);
-
 
     const content = `
       INSERT INTO roles(title) VALUES
