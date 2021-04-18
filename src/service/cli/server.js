@@ -1,9 +1,10 @@
 'use strict';
 
 const express = require(`express`);
+const sequelize = require(`../lib/sequelize`);
 
 const {ChalkTheme} = require(`./chalk-theme`);
-const {success} = ChalkTheme.server;
+const {success, error} = ChalkTheme.server;
 const {HttpCode} = require(`../../constants`);
 const {getLogger} = require(`../lib/logger`);
 const postsRouter = require(`./routes/posts`);
@@ -33,22 +34,35 @@ app.use((req, res) => {
     .status(HttpCode.NOT_FOUND)
     .send(`Not found`);
 
-  logger.error(`Route not found: ${req.url}`);
+  logger.error(error(`Route not found: ${req.url}`));
 });
 
 app.use((err, _req, _res, _next) => {
-  logger.error(`An error occured on processing request: ${err.message}`);
+  logger.error(error(`An error occured on processing request: ${err.message}`));
 });
 
 module.exports = {
   name: `--server`,
-  run(args) {
+  async run(args) {
+    // Connect to database
+    try {
+      logger.info(`Trying to connect to database...`);
+      await sequelize.authenticate();
+    } catch (err) {
+      return logger.error(error(`An error occured: ${err.message}`));
+    }
+    logger.info(success(`Connection to database established`));
+
+    // Starting server
     const [customPort] = args;
     const port = Number.parseInt(customPort, 10) || DEFAULT_PORT;
 
-    app.listen(port, () => {
-      return logger.info(success(`Ожидаю соединений на ${port}`));
-    });
+    try {
+      await app.listen(port);
+    } catch (err) {
+      return logger.error(error(`An error occured: ${err.message}`));
+    }
 
+    return logger.info(success(`Server started on ${port} port`));
   }
 };
