@@ -2,7 +2,7 @@
 
 const {ChalkTheme} = require(`./chalk-theme`);
 const {success} = ChalkTheme.help;
-const {MOCKS_FILE_NAME, MOCKS_DB_FILE_NAME} = require(`../../constants`);
+const {MOCKS_DB_FILE_NAME} = require(`../../constants`);
 
 const commandText = `
   Программа запускает http-сервер и формирует файл с данными для API.
@@ -12,7 +12,7 @@ const commandText = `
     Команды:
     --version:            выводит номер версии
     --help:               печатает этот текст
-    --generate <count>    формирует файл ${MOCKS_FILE_NAME}
+    --filldb <count>      заполняет базу данных моками
     --fill <count>        формирует файл ${MOCKS_DB_FILE_NAME}
 `;
 

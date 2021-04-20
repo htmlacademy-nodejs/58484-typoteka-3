@@ -1,12 +1,14 @@
 'use strict';
 
 const fs = require(`fs`).promises;
+const sequelize = require(`../lib/sequelize`);
+const initDatabase = require(`../lib/init-db`);
+
 const {createUser} = require(`./factories/user-factory`);
 const {generateDate} = require(`./factories/date-factory`);
 
 const {
   ExitCode,
-  MOCKS_DB_FILE_NAME,
   MockFileName,
 } = require(`../../constants`);
 const {ChalkTheme} = require(`./chalk-theme`);
@@ -101,7 +103,7 @@ const generateArticles = async (count, users) => {
     publishedAt: generateDate(),
     announce: shuffle(sentences).slice(1, 5).join(` `),
     fullText: shuffle(sentences).slice(1, getRandomInt(2, sentences.length - 1)).join(` `),
-    categories: getRandomItems(generateCategories(categories), 1, MAX_CATEGORY_LIMIT),
+    categories: getRandomItems(generateCategories(categories), 1, MAX_CATEGORY_LIMIT).map(({id}) => id),
     comments: Array(getRandomInt(1, 5)).fill({}).map(() => generateComment(comments, index + 1, users)),
     userId: getRandomItem(users).id,
     image: `forest@1x.jpg`,
@@ -124,19 +126,18 @@ const generateUsers = (count) => {
     }));
 };
 
-const createFile = async (content) => {
-  try {
-    await fs.writeFile(MOCKS_DB_FILE_NAME, content);
-    console.info(success(`Operation success. File created.`));
-  } catch (e) {
-    console.error(error(`Can't write data to file... ${e.message}`));
-    process.exit(ExitCode.ERROR);
-  }
-};
-
 module.exports = {
-  name: `--fill`,
+  name: `--filldb`,
   async run(args) {
+    // Connect to database
+    try {
+      console.info(success(`Trying to connect to database...`));
+      await sequelize.authenticate();
+    } catch (err) {
+      return console.error(error(`An error occured: ${err.message}`));
+    }
+    console.info(success(`Connection to database established`));
+
     const [count] = args;
 
     if (count > MAX_COUNT_LIMIT) {
@@ -149,64 +150,18 @@ module.exports = {
     const users = generateUsers(USER_COUNT);
     const categories = await getFileContent(`./data/${MockFileName.CATEGORIES}`);
     const articles = await generateArticles(countArticle, users);
-    const comments = articles.flatMap((article) => article.comments);
     const roles = generateRoles();
-    const articlesCategories = articles.flatMap((article, index) => {
-      return article.categories.map((category) => ({
-        articleId: index + 1,
-        categoryId: category.id
-      }));
+
+    // fill DB
+    console.info(success(`Trying to fill database...`));
+    await initDatabase(sequelize, {
+      users,
+      categories,
+      articles,
+      roles
     });
 
-    const userValues = users.map(
-        ({firstName, lastName, email, avatar, password, roleId}) =>
-          `('${firstName}', '${lastName}', '${email}', '${avatar}', '${password}', '${roleId}')`
-    ).join(`,\n`);
-
-    const roleValues = roles
-      .map(({title}) => `('${title}')`)
-      .join(`,\n`);
-
-    const categoryValues = categories
-      .map((title) => `('${title}')`)
-      .join(`,\n`);
-
-    const articleValues = articles.map(
-        ({title, image, announce, fullText, publishedAt, userId}) =>
-          `('${title}', '${image}', '${announce}', '${fullText}', '${publishedAt}', '${userId}')`
-    ).join(`,\n`);
-
-    const articleCategoryValues = articlesCategories.map(
-        ({articleId, categoryId}) =>
-          `(${articleId}, ${categoryId})`
-    ).join(`,\n`);
-
-    const commentValues = comments.map(
-        ({text, userId, articleId}) =>
-          `('${text}', ${userId}, ${articleId})`
-    ).join(`,\n`);
-
-    const content = `
-      INSERT INTO roles(title) VALUES
-        ${roleValues};
-      INSERT INTO users(first_name, last_name, email, avatar, password, role_id) VALUES
-        ${userValues};
-      INSERT INTO categories(title) VALUES
-        ${categoryValues};
-      ALTER TABLE articles DISABLE TRIGGER ALL;
-      INSERT INTO articles(title, image, announce, full_text, published_at, user_id) VALUES
-        ${articleValues};
-      ALTER TABLE articles ENABLE TRIGGER ALL;
-      ALTER TABLE articles_categories DISABLE TRIGGER ALL;
-      INSERT INTO articles_categories(article_id, category_id) VALUES
-        ${articleCategoryValues};
-      ALTER TABLE articles_categories ENABLE TRIGGER ALL;
-      ALTER TABLE comments DISABLE TRIGGER ALL;
-      INSERT INTO COMMENTS(text, user_id, article_id) VALUES
-        ${commentValues};
-      ALTER TABLE comments ENABLE TRIGGER ALL;
-    `;
-
-    await createFile(content);
+    console.info(success(`Database filled!`));
+    return process.exit(ExitCode.SUCCESS);
   }
 };

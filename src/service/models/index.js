@@ -21,21 +21,21 @@ const define = (sequelize) => {
   // User <-> Role
   User.belongsTo(Role, {
     as: Aliase.ROLE,
-    foreignKey: `role_id`,
+    foreignKey: `roleId`,
   });
   Role.hasMany(User, {
     as: Aliase.USERS,
-    foreignKey: `role_id`
+    foreignKey: `roleId`
   });
 
   // Article <-> User
   User.hasMany(Article, {
     as: Aliase.ARTICLES,
-    foreignKey: `user_id`
+    foreignKey: `userId`
   });
   Article.belongsTo(User, {
     as: Aliase.USER,
-    foreignKey: `user_id`
+    foreignKey: `userId`
   });
 
   // Article <- ArticleCategory -> Category
@@ -47,28 +47,28 @@ const define = (sequelize) => {
     through: ArticleCategory,
     as: Aliase.ARTICLES
   });
-  Category.hasMany(Article, {
+  Category.hasMany(ArticleCategory, {
     as: Aliase.ARTICLE_CATEGORY
   });
 
   // Article <-> Comment
   Article.hasMany(Comment, {
     as: Aliase.COMMENTS,
-    foreignKey: `article_id`
+    foreignKey: `articleId`
   });
   Comment.belongsTo(Article, {
     as: Aliase.ARTICLE,
-    foreignKey: `article_id`
+    foreignKey: `articleId`
   });
 
   // User <-> Comment
   User.hasMany(Comment, {
     as: Aliase.COMMENT,
-    foreignKey: `user_id`
+    foreignKey: `userId`
   });
   Comment.belongsTo(User, {
     as: Aliase.USER,
-    foreignKey: `user_id`
+    foreignKey: `userId`
   });
 
   return {
