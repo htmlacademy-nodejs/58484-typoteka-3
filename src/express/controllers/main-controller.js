@@ -3,8 +3,12 @@
 const api = require(`../api`).getAPI();
 
 const showMain = async (req, res) => {
-  const articles = await api.getArticles();
-  res.render(`main`, {articles});
+  const [articles, categories] = await Promise.all([
+    api.getArticles({comments: true}),
+    api.getCategories(true)
+  ]);
+
+  res.render(`main`, {articles, categories});
 };
 
 const showSearch = async (req, res) => {

@@ -14,7 +14,7 @@ class CategoryService {
       const result = await this._Category.findAll({
         attributes: [
           `id`,
-          `name`,
+          `title`,
           [
             Sequelize.fn(
                 `COUNT`,
