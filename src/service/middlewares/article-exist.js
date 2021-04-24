@@ -7,10 +7,10 @@ module.exports = (service) => (req, res, next) => {
   const article = service.findOne(articleId);
 
   if (!article) {
-    return res.status(HttpCode.NOT_FOUND)
+    return res
+      .status(HttpCode.NOT_FOUND)
       .send(`Article with ${articleId} not found`);
   }
 
-  res.locals.article = article;
   return next();
 };
