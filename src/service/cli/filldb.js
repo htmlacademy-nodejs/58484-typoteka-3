@@ -10,6 +10,7 @@ const {generateDate} = require(`./factories/date-factory`);
 const {
   ExitCode,
   MockFileName,
+  USER_ROLES,
 } = require(`../../constants`);
 const {ChalkTheme} = require(`./chalk-theme`);
 
@@ -30,11 +31,6 @@ const DEFAULT_COUNT = 1;
 const MAX_COUNT_LIMIT = 1000;
 const MAX_CATEGORY_LIMIT = 4;
 const USER_COUNT = 5;
-const USER_ROLES = [
-  `Гость`,
-  `Читатель`,
-  `Автор`,
-];
 
 const getFileContent = async (fileName) => {
   try {
