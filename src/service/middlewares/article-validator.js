@@ -2,7 +2,7 @@
 
 const {HttpCode} = require(`../../constants`);
 
-const articleKeys = [`title`, `createdDate`, `announce`, `fullText`, `category`];
+const articleKeys = [`title`, `publishedAt`, `announce`, `fullText`, `categories`];
 
 module.exports = (req, res, next) => {
   const newArticle = req.body;
@@ -10,10 +10,10 @@ module.exports = (req, res, next) => {
   const keysExists = articleKeys.every((key) => keys.includes(key));
 
   if (!keysExists) {
-    res
+    return res
       .status(HttpCode.BAD_REQUEST)
       .send(`Bad request. Fields: [${articleKeys.join(`, `)}] is required!`);
   }
 
-  next();
+  return next();
 };

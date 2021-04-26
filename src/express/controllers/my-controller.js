@@ -8,8 +8,10 @@ const showMy = async (req, res) => {
 };
 
 const showComments = async (req, res) => {
-  const articles = await api.getArticles();
-  res.render(`comments`, {articles: articles.slice(0, 3)});
+  const articles = await api.getArticles({comments: true});
+  res.render(`comments`, {
+    articles: articles.slice(0, 3)
+  });
 };
 
 module.exports = {

@@ -58,12 +58,12 @@ block content
                     .new-publication__checkbox.new-publication__checkbox--auto
                       each category in categories
                         input(
-                          id=category
+                          id=category.id
                           type='checkbox'
-                          name=`category[${category}]`
-                          checked=article && article.category.includes(category)
+                          name=`category[${category.title}]`
+                          checked=article && article.categories.some((cat) => cat.id === category.id)
                         )
-                        label(for=category) #{category}
+                        label(for=category.id) #{category.title}
 
                     a.new-publication__form-link.button.button--transparent(href='#') Добавить категорию
                 .form__wrapper.form__wrapper--text

@@ -31,6 +31,12 @@ const MockFileName = {
   COMMENTS: `comments.txt`,
 };
 
+const USER_ROLES = [
+  `Гость`,
+  `Читатель`,
+  `Автор`,
+];
+
 module.exports = {
   MAX_ID_LENGTH,
   DEFAULT_COMMAND,
@@ -41,4 +47,5 @@ module.exports = {
   HttpCode,
   Env,
   MockFileName,
+  USER_ROLES,
 };
