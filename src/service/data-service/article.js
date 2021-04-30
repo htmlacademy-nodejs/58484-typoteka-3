@@ -43,14 +43,14 @@ class ArticleService {
     return {count, articles: rows};
   }
 
-  async findOne(id, needComments) {
+  findOne(id, needComments) {
     const include = [Aliase.CATEGORIES];
 
     if (needComments) {
       include.push(Aliase.COMMENTS);
     }
 
-    return await this._Article.findByPk(id, {include});
+    return this._Article.findByPk(id, {include});
   }
 
   async update(id, article) {
