@@ -93,6 +93,9 @@ block content
                 |
                 b.preview__comment-count #{article.comments.length}
 
+      .preview__toggle-wrapper
+        +pagination(page, totalPages, 2, `?`)
+
     footer.footer
       a.footer__copyright(href='#' aria-label='HTMLAcademy')
         img(src='img/icons/HTMLAcademyLogo.svg' width='112' height='50' alt='HTMLAcademy')
