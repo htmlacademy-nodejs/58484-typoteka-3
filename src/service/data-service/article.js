@@ -33,14 +33,24 @@ class ArticleService {
     return articles.map((item) => item.get());
   }
 
-  async findOne(id, needComments) {
+  async findPage({limit, offset}) {
+    const {count, rows} = await this._Article.findAndCountAll({
+      limit,
+      offset,
+      include: [Aliase.CATEGORIES, Aliase.COMMENTS],
+      distinct: true
+    });
+    return {count, articles: rows};
+  }
+
+  findOne(id, needComments) {
     const include = [Aliase.CATEGORIES];
 
     if (needComments) {
       include.push(Aliase.COMMENTS);
     }
 
-    return await this._Article.findByPk(id, {include});
+    return this._Article.findByPk(id, {include});
   }
 
   async update(id, article) {
