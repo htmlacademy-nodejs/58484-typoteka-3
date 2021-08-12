@@ -2,10 +2,26 @@
 
 const api = require(`../api`).getAPI();
 
+const {getSessionError} = require(`../utils`);
+
 const show = async (req, res) => {
   const {id} = req.params;
-  const article = await api.getArticle(id);
-  res.render(`post`, {article});
+  const error = getSessionError(req);
+
+  const [
+    article,
+    categories
+  ] = await Promise.all([
+    api.getArticle(id, true),
+    api.getCategories(true)
+  ]);
+
+  const categoriesByArticle = categories.filter(
+      (cat) => article.categories.map(
+          (articleCategories) => articleCategories.id).includes(cat.id)
+  );
+
+  res.render(`post`, {article: {...article, categories: categoriesByArticle}, error});
 };
 
 const edit = async (req, res) => {
@@ -16,7 +32,9 @@ const edit = async (req, res) => {
     api.getCategories()
   ]);
 
-  res.render(`new-post`, {article, categories});
+  const error = getSessionError(req);
+
+  res.render(`new-post`, {article, categories, error});
 };
 
 const update = async (req, res) => {
@@ -26,10 +44,10 @@ const update = async (req, res) => {
   const articleData = {
     id,
     title: body.title,
-    createdDate: body.date,
+    publishedAt: body.date,
     announce: body.announcement,
     fullText: body[`full-text`],
-    category: Object.keys(body.category),
+    categories: Object.keys(body.category || {}),
   };
 
   if (file) {
@@ -42,13 +60,16 @@ const update = async (req, res) => {
     const article = await api.updateArticle(articleData);
     res.render(`post`, {article});
   } catch (err) {
+    req.session.error = err.response.data;
     res.redirect(`back`);
   }
 };
 
 const create = async (req, res) => {
+  const error = getSessionError(req);
   const categories = await api.getCategories();
-  res.render(`new-post`, {categories});
+
+  res.render(`new-post`, {categories, error});
 };
 
 const store = async (req, res) => {
@@ -56,17 +77,23 @@ const store = async (req, res) => {
 
   const articleData = {
     title: body.title,
-    createdDate: body.date,
+    publishedAt: body.date,
     announce: body.announcement,
     fullText: body[`full-text`],
-    image: file.filename,
-    category: Object.keys(body.category),
+    categories: Object.keys(body.category || {}),
   };
+
+  if (file) {
+    Object.assign(articleData, {
+      image: file.filename,
+    });
+  }
 
   try {
     await api.createArticle(articleData);
     res.redirect(`/my`);
   } catch (err) {
+    req.session.error = err.response.data;
     res.redirect(`back`);
   }
 };

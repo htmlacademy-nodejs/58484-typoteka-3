@@ -23,7 +23,7 @@ const define = (sequelize) => Article.init({
   publishedAt: {
     type: DataTypes.DATE,
     allowNull: false
-  }
+  },
 }, {
   sequelize,
   modelName: `Article`,

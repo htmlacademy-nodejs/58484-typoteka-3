@@ -10,7 +10,10 @@ class ArticleService {
   }
 
   async create(articleData) {
-    const article = await this._Article.create(articleData);
+    const article = await this._Article.create({
+      ...articleData,
+      userId: 1 // TODO: set Auth user id
+    });
     await article.addCategories(articleData.categories);
 
     return article.get();
@@ -57,6 +60,8 @@ class ArticleService {
     const [affectedRows] = await this._Article.update(article, {
       where: {id}
     });
+    const updatedArticle = await this._Article.findByPk(id);
+    await updatedArticle.setCategories(article.categories);
 
     return !!affectedRows;
   }

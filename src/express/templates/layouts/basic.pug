@@ -1,3 +1,5 @@
+include ../parts/_error
+
 html(lang='ru')
   head
     meta(charset='utf-8')
@@ -40,7 +42,11 @@ html(lang='ru')
         li
           a.pagination__button.button.button--forward(class={'button--disabled': page >= totalPages} href=`${prefix}page=${page + 1}` aria-label='Страница вперед') &Vcy;&pcy;&iecy;&rcy;&iecy;&dcy;
 
-    block content
+    if (error)
+      +error(error)
+
+    .wrapper
+      block content
 
 script(src='/js/vendor.js')
 script(src='/js/main.js')

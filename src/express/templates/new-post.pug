@@ -8,73 +8,74 @@ block content
   - var fullText = article ? article.fullText : '';
   - var mainHead = article ? 'Редактировать публикацию' : 'Новая публикация';
 
-  .wrapper
-    header.header
-      a.header__logo.logo(href='/')
-        img.logo__image(src='/img/icons/logo-image-only.svg' alt='логотип Тайпотеки')
-        span.logo__name Типотека
-      button.button.button--colored.header__button-new Новая запись
-      .header__dropdown
-        a.button.button--burger.header__burger(href='#') Открыть меню
-        ul.navigation.header__navigation
-          li.navigation__item
-            a(href='main.html') Пункт меню
-          li.navigation__item
-            a(href='main.html') Пункт меню
-          li.navigation__item
-            a(href='main.html') Пункт меню
-          li.navigation__item
-            a(href='main.html') Пункт меню
-      a.header__search.button.button--search(href='#' aria-label='поиск по сайту')
-    main
-      section
-        .popup.popup--new-publication.popup--anti
-          .new-publication
-            form(action=formAction method='POST' enctype='multipart/form-data' autocomplete='off')
-              .new-publication__header
-                h1 #{mainHead}
-                .new-publication__date-form
-                  h3 Дата публикации
-                  .new-publication__date-form-division
-                    .new-publication__date-block
-                      label(for='new-publication-date' aria-label='Календарь')
-                      input#new-publication-date(type='text' name='date' placeholder='2019-03-21')
-                button.new-publication__button.button.button--colored(type='submit') Опубликовать
-              a.popup__button.button.button--popup-close(aria-label='Закрыть окно') Закрыть окно
-              .new-publication__form.form
-                .form__wrapper.form__wrapper--intro
-                  .form__field
+  header.header
+    a.header__logo.logo(href='/')
+      img.logo__image(src='/img/icons/logo-image-only.svg' alt='логотип Тайпотеки')
+      span.logo__name Типотека
+    button.button.button--colored.header__button-new Новая запись
+    .header__dropdown
+      a.button.button--burger.header__burger(href='#') Открыть меню
+      ul.navigation.header__navigation
+        li.navigation__item
+          a(href='main.html') Пункт меню
+        li.navigation__item
+          a(href='main.html') Пункт меню
+        li.navigation__item
+          a(href='main.html') Пункт меню
+        li.navigation__item
+          a(href='main.html') Пункт меню
+    a.header__search.button.button--search(href='#' aria-label='поиск по сайту')
+  main
+    section
+      .popup.popup--new-publication.popup--anti
+        .new-publication
+          form(action=formAction method='POST' enctype='multipart/form-data' autocomplete='off')
+            .new-publication__header
+              h1 #{mainHead}
+              .new-publication__date-form
+                h3 Дата публикации
+                .new-publication__date-form-division
+                  .new-publication__date-block
+                    label(for='new-publication-date' aria-label='Календарь')
+                    input#new-publication-date(type='text' name='date' placeholder='2019-03-21')
+              button.new-publication__button.button.button--colored(type='submit') Опубликовать
+            a.popup__button.button.button--popup-close(aria-label='Закрыть окно') Закрыть окно
+            .new-publication__form.form
+              .form__wrapper.form__wrapper--intro
+                .form__field
+                  label
+                    input(type='text' name='title' placeholder='Заголовок' value=error && error.data.title || title required)
+                .form__field.form__field--post-image
+                  label
+                    input#image-name-field(type='text' name='photo' value=image placeholder='Фотография' readonly)
+                  .form__image-loader.form__image-loader--publication
                     label
-                      input(type='text' name='title' placeholder='Заголовок' value=title required)
-                  .form__field.form__field--post-image
-                    label
-                      input#image-name-field(type='text' name='photo' value=image placeholder='Фотография' readonly)
-                    .form__image-loader.form__image-loader--publication
-                      label
-                        input.visually-hidden(type='file' name='upload' value=image)
-                        | Обзор
-                    button.button.button--transparent Удалить
-                  .new-publication__category-wrapper
-                    .new-publication__checkbox.new-publication__checkbox--auto
-                      each category in categories
-                        input(
-                          id=category.id
-                          type='checkbox'
-                          name=`category[${category.title}]`
-                          checked=article && article.categories.some((cat) => cat.id === category.id)
-                        )
-                        label(for=category.id) #{category.title}
+                      input.visually-hidden(type='file' name='upload' value=image)
+                      | Обзор
+                  button.button.button--transparent Удалить
+                .new-publication__category-wrapper
+                  .new-publication__checkbox.new-publication__checkbox--auto
+                    each category in categories
+                      - var editCategories = article && article.categories.some((cat) => cat.id === category.id)
+                      - var errorCategories = error && error.data.categories.includes(category.id.toString())
+                      input(
+                        id=category.id
+                        type='checkbox'
+                        name=`category[${category.id}]`
+                        checked= errorCategories || editCategories
+                      )
+                      label(for=category.id) #{category.title}
 
-                    a.new-publication__form-link.button.button--transparent(href='#') Добавить категорию
-                .form__wrapper.form__wrapper--text
-                  .form__field.form__field--publication-text
-                    label
-                      textarea(rows='5' name='announcement' placeholder='Анонс публикации') #{announce}
-                  .form__field.form__field--publication-text
-                    label
-                      textarea(rows='10' name='full-text' placeholder='Полный текст публикации') #{fullText}
-    footer.footer
-      a.footer__copyright(href='#' aria-label='HTMLAcademy')
-        img(src='/img/icons/HTMLAcademyLogo.svg' width='112' height='50' alt='HTMLAcademy')
-      span.footer__dot
-      p.footer__text Типотека, 2019
+                  a.new-publication__form-link.button.button--transparent(href='#') Добавить категорию
+              .form__wrapper.form__wrapper--text
+                .form__field.form__field--publication-text
+                  label
+                    textarea(rows='5' name='announcement' placeholder='Анонс публикации') #{error && error.data.announce || announce}
+                .form__field.form__field--publication-text
+                  label
+                    textarea(rows='10' name='full-text' placeholder='Полный текст публикации') #{error && error.data.fullText || fullText}
+  footer.footer
+    a.footer__copyright(href='#' aria-label='HTMLAcademy')
+      img(src='/img/icons/HTMLAcademyLogo.svg' width='112' height='50' alt='HTMLAcademy')
+    span.footer__dot
+    p.footer__text Типотека, 2019

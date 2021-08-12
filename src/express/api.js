@@ -50,6 +50,13 @@ class API {
     });
   }
 
+  async createComment(articleId, data) {
+    return await this._load(`/articles/${articleId}/comments`, {
+      method: `POST`,
+      data
+    });
+  }
+
 }
 
 const defaultAPI = new API(defaultUrl, TIMEOUT);

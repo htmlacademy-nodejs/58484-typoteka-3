@@ -1,0 +1,11 @@
+mixin comment(comment)
+  - var user = comment.user;
+
+  li.comments__comment
+    .comments__avatar.avatar
+      img(src=`/img/${user.avatar}` alt='аватар пользователя')
+    .comments__text
+      .comments__head
+        p=`${user.firstName} ${user.lastName}`
+        time.comments__date(datetime='2019-03-21T20:33') 21.03.2019, 20:33
+      p.comments__message=comment.text

@@ -1,6 +1,8 @@
 'use strict';
 
 const api = require(`../api`).getAPI();
+const {getSessionError} = require(`../utils`);
+
 const ARTICLES_PER_PAGE = 8;
 
 const showMain = async (req, res) => {
@@ -18,9 +20,11 @@ const showMain = async (req, res) => {
     api.getCategories(true)
   ]);
 
+  const error = getSessionError(req);
+
   const totalPages = Math.ceil(count / ARTICLES_PER_PAGE);
 
-  res.render(`main`, {articles, categories, page, totalPages});
+  res.render(`main`, {articles, categories, page, totalPages, error});
 };
 
 const showSearch = async (req, res) => {
