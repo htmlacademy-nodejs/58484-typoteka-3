@@ -34,6 +34,7 @@ mixin error(error)
     const errorsEl = document.querySelector('.errors-block');
     const closeEl = document.querySelector('.close');
 
-    closeEl.addEventListener('click', () => {
-      errorsEl.style.display = 'none';
-    })
+    const closeAlert = () => errorsEl.remove();
+
+    closeEl.addEventListener('click', closeAlert);
+    setTimeout(closeAlert, 3000);
