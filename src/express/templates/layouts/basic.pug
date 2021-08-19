@@ -42,6 +42,22 @@ html(lang='ru')
         li
           a.pagination__button.button.button--forward(class={'button--disabled': page >= totalPages} href=`${prefix}page=${page + 1}` aria-label='Страница вперед') &Vcy;&pcy;&iecy;&rcy;&iecy;&dcy;
 
+
+    mixin formatDate(rawDate)
+      -
+        var date = new Date(rawDate)
+        var isoDate = date.toISOString()
+        var y = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(date);
+        var m = new Intl.DateTimeFormat('en', { month: '2-digit' }).format(date);
+        var d = new Intl.DateTimeFormat('en', { day: '2-digit' }).format(date);
+        var time = new Intl.DateTimeFormat('en', {
+          hour: 'numeric',
+          minute: 'numeric',
+          hour12: false
+        }).format(date)
+
+      time(class=attributes.class datetime=isoDate)  #{d}.#{m}.#{y}, #{time}
+
     if (error)
       +error(error)
 

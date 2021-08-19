@@ -17,7 +17,7 @@ block content
             if hasResult
               each result in results
                 .search__result
-                  time.search__date(datetime='2019-03-21T20:33') 21.03.2019, 20:33
+                  +formatDate(result.createdAt)(class='search__date')
                   a.search__link(href=`/articles/${result.id}`) !{result.title.replace(search, `<b>${search}</b>`)}
             else if emptyResult
               p.search-page__empty Ничего не нашлось

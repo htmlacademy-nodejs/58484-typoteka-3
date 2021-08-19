@@ -11,7 +11,7 @@ block content
         .post__wrapper
           .post__head
             a.post__backwards.button.button--backwards(href='#', onclick='history.go(-1)') Назад
-            time.post__date(datetime='2019-03-21T20:33') 21.03.2019, 20:33
+            +formatDate(article.createdAt)(class='post__date')
             h2.post__title.title.title--main #{article.title}
             ul.post__themes.themes
               each category in article.categories
