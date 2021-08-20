@@ -1,5 +1,6 @@
 extends layouts/basic
 include parts/_article
+include parts/_category
 
 block content
   main.main-page
@@ -11,10 +12,7 @@ block content
       h2.visually-hidden Список тем
       ul.themes
         each category in categories
-          li.themes__item
-            a.themes__item-link(href='#')
-              | #{category.title}
-              sup #{category.count}
+          +category(category)
 
     .main-page__section-flex
       section.main-page__hot.hot

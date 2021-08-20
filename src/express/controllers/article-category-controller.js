@@ -2,15 +2,34 @@
 
 const api = require(`../api`).getAPI();
 
+const ARTICLES_PER_PAGE = 8;
+
 const show = async (req, res) => {
+  let {page = 1} = req.query;
+  page = +page;
+
+  const limit = ARTICLES_PER_PAGE;
+  const offset = (page - 1) * ARTICLES_PER_PAGE;
+
   const categoryId = req.params.id;
-  const articles = await api.getArticles({categoryId, comments: true});
-  const categories = await api.getCategories(true);
-  // TODO: пагинация, выборка постов по категории
+
+  const [
+    {count, articles},
+    categories
+  ] = await Promise.all([
+    api.getArticlesByCategoryId({offset, limit, categoryId}),
+    await api.getCategories(true)
+  ]);
+
+  const totalPages = Math.ceil(count / ARTICLES_PER_PAGE);
+  const currentCategory = categories.find((category) => category.id === +categoryId);
+
   return res.render(`articles-by-category`, {
     articles,
     categories,
-    currentCategoryId: categoryId
+    currentCategory,
+    totalPages,
+    page
   });
 };
 

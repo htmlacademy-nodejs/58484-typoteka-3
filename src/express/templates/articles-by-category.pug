@@ -4,13 +4,13 @@ include parts/_category
 
 block content
   main.articles-category
-    h1 Бизнес
+    h1 #{currentCategory.title}
     if categories && categories.length
       section.articles-category__theme-list
         h2.visually-hidden Список тем
         ul.themes
           each category in categories
-            +category(category)(class=`${category.id === +currentCategoryId ? 'themes__item-link--active': ''}`)
+            +category(category)(class=`${category.id === +currentCategory.id ? 'themes__item-link--active': ''}`)
 
     // Post list
     section.articles-category__list.preview
@@ -21,3 +21,6 @@ block content
             +article(article)
         else
           p Здесь пока пусто!
+
+    .preview__toggle-wrapper
+      +pagination(page, totalPages, 2, `?`)

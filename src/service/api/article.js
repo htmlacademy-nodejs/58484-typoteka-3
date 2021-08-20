@@ -122,4 +122,15 @@ module.exports = (app, articleService, commentService) => {
       .json(dropComment);
   });
 
+  route.get(`/category/:categoryId`, [
+    paramValidator(idSchema, `categoryId`)
+  ], async (req, res) => {
+    const {categoryId, limit, offset} = req.query;
+    const articles = await articleService.findArticlesByCategoryId({limit, offset, categoryId});
+
+    return res
+      .status(HttpCode.OK)
+      .json(articles);
+  });
+
 };

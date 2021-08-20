@@ -66,6 +66,21 @@ class ArticleService {
     return !!affectedRows;
   }
 
+  async findArticlesByCategoryId({categoryId, limit, offset}) {
+    const category = await this._Category.findByPk(categoryId);
+
+    const [count, articles] = await Promise.all([
+      category.countArticles(),
+      category.getArticles({
+        limit, offset,
+        nest: true,
+        include: [Aliase.CATEGORIES, Aliase.COMMENTS],
+      })
+    ]);
+
+    return {count, articles};
+  }
+
 }
 
 module.exports = ArticleService;
