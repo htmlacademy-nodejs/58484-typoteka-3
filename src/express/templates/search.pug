@@ -1,6 +1,15 @@
 extends layouts/basic
 
+block vars
+  - var wrapperClass = 'wrapper-color';
+
 block content
+  style.
+    .search-page__wrapper {
+      min-height: 610px;
+      height: auto;
+    }
+
   - var hasResult = results.length > 0;
   - var emptyResult = results.length === 0 && search;
 

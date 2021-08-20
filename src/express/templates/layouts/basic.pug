@@ -1,5 +1,7 @@
 include ../parts/_error
 
+block vars
+
 html(lang='ru')
   head
     meta(charset='utf-8')
@@ -61,7 +63,7 @@ html(lang='ru')
     if (error)
       +error(error)
 
-    .wrapper
+    div(class=wrapperClass || 'wrapper')
       include ../parts/_header
       block content
       include ../parts/_footer
