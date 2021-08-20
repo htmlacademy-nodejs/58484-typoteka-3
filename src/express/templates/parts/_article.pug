@@ -1,0 +1,20 @@
+mixin article(article)
+  - var hasImage = article.image;
+
+  li(class=`preview__item ${hasImage ? '' : 'preview__item--noimage'}`)
+    ul.preview__breadcrumbs
+      each category in article.categories
+        li.preview__breadcrumbs-item
+          a.preview__breadcrumbs-link(href='#') #{category.title}
+    if hasImage
+      .preview__background
+        img.preview__background-image(src=`/img/${article.image}` width='460' height='240' alt=article.title)
+    +formatDate(article.createdAt)(class='preview__time')
+    h3.preview__name
+      a.preview__name-link(href=`/articles/${article.id}`) #{article.title}
+    p.preview__text #{article.announce}
+    a.preview__comment(href='#')
+      | Комментарии
+      span.preview__cloud
+      |
+      b.preview__comment-count #{article.comments.length}
