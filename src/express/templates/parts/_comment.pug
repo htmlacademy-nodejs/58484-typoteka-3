@@ -1,0 +1,11 @@
+mixin comment(comment)
+  - var user = comment.user;
+
+  li.comments__comment
+    .comments__avatar.avatar
+      img(src=`/img/${user.avatar}` alt='аватар пользователя')
+    .comments__text
+      .comments__head
+        p=`${user.firstName} ${user.lastName}`
+        +formatDate(comment.createdAt)(class='comments__date')
+      p.comments__message=comment.text

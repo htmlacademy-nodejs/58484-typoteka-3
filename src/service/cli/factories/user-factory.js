@@ -8,7 +8,7 @@ faker.locale = `ru`;
 const createUser = (userData) => {
   // faker.name.firstName - генерит латиницу;
   const [firstName, lastName] = faker.name.findName().split(` `);
-  const avatar = `avatar-${getRandomInt(1, 5)}`;
+  const avatar = `avatar-${getRandomInt(1, 5)}.png`;
 
   return {
     email: faker.internet.email(),

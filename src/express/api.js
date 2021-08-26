@@ -24,6 +24,10 @@ class API {
     return await this._load(`/articles`, {params: {offset, limit, comments}});
   }
 
+  async getArticlesByCategoryId({offset, limit, categoryId} = {}) {
+    return await this._load(`/articles/category/${categoryId}`, {params: {offset, limit, categoryId}});
+  }
+
   async getArticle(id, comments) {
     return await this._load(`/articles/${id}`, {params: {comments}});
   }
@@ -46,6 +50,13 @@ class API {
   async updateArticle(data) {
     return await this._load(`/articles/${data.id}`, {
       method: `PUT`,
+      data
+    });
+  }
+
+  async createComment(articleId, data) {
+    return await this._load(`/articles/${articleId}/comments`, {
+      method: `POST`,
       data
     });
   }

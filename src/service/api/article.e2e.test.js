@@ -127,6 +127,13 @@ describe(`service/api/article.js`, () => {
       expect(response.statusCode).toBe(HttpCode.NOT_FOUND);
     });
 
+    it(`Status code 400 if pass invalid article id`, async () => {
+      response = await request(app)
+        .get(`/articles/invalidID`);
+
+      expect(response.statusCode).toBe(HttpCode.BAD_REQUEST);
+    });
+
   });
 
   describe(`API creates an article if data is valid`, () => {

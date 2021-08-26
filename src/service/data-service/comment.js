@@ -1,13 +1,17 @@
 'use strict';
 
+const Aliase = require(`../models/aliase`);
+
 class CommentService {
   constructor(sequelize) {
     this._Comment = sequelize.models.Comment;
   }
 
   create(articleId, comment) {
+    const userId = 1; // temp! Use auth userId
     return this._Comment.create({
       articleId,
+      userId,
       ...comment
     });
   }
@@ -15,7 +19,9 @@ class CommentService {
   findAll(articleId) {
     return this._Comment.findAll({
       where: {articleId},
-      raw: true
+      raw: true,
+      nest: true,
+      include: [Aliase.USER]
     });
   }
 

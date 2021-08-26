@@ -1,0 +1,40 @@
+mixin error(error)
+  // Styles
+  style.
+    .errors-block {
+      padding: 15px 25px;
+      background: #fff;
+      border-radius: 9px;
+      position: fixed;
+      top: 10px;
+      right: 10px;
+
+      box-shadow: 0 0 10px rgba(0, 0, 0, .5);
+      z-index: 10;
+    }
+    .close {
+      position: absolute;
+      top: 5px;
+      right: 10px;
+      cursor: pointer;
+      color: #777
+    }
+    .errors {
+      padding-left: 20px;
+      color: red;
+    }
+
+  // Template
+  div.errors-block
+    span.close='x'
+    ul.errors !{error.message.map((err) => `<li class="error__item">${err}</li>`).join('')}
+
+  // Script
+  script.
+    const errorsEl = document.querySelector('.errors-block');
+    const closeEl = document.querySelector('.close');
+
+    const closeAlert = () => errorsEl.remove();
+
+    closeEl.addEventListener('click', closeAlert);
+    setTimeout(closeAlert, 3000);

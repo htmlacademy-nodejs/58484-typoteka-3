@@ -1,8 +1,36 @@
 'use strict';
 
-const show = (req, res) => {
+const api = require(`../api`).getAPI();
+
+const ARTICLES_PER_PAGE = 8;
+
+const show = async (req, res) => {
+  let {page = 1} = req.query;
+  page = +page;
+
+  const limit = ARTICLES_PER_PAGE;
+  const offset = (page - 1) * ARTICLES_PER_PAGE;
+
   const categoryId = req.params.id;
-  res.render(`articles-by-category`, {categoryId});
+
+  const [
+    {count, articles},
+    categories
+  ] = await Promise.all([
+    api.getArticlesByCategoryId({offset, limit, categoryId}),
+    await api.getCategories(true)
+  ]);
+
+  const totalPages = Math.ceil(count / ARTICLES_PER_PAGE);
+  const currentCategory = categories.find((category) => category.id === +categoryId);
+
+  return res.render(`articles-by-category`, {
+    articles,
+    categories,
+    currentCategory,
+    totalPages,
+    page
+  });
 };
 
 module.exports = {
