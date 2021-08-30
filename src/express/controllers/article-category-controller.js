@@ -5,8 +5,7 @@ const api = require(`../api`).getAPI();
 const ARTICLES_PER_PAGE = 8;
 
 const show = async (req, res) => {
-  let {page = 1} = req.query;
-  page = +page;
+  const page = +req.query.page || 1;
 
   const limit = ARTICLES_PER_PAGE;
   const offset = (page - 1) * ARTICLES_PER_PAGE;
