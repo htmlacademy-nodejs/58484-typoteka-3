@@ -23,6 +23,10 @@ const show = async (req, res) => {
   const totalPages = Math.ceil(count / ARTICLES_PER_PAGE);
   const currentCategory = categories.find((category) => category.id === +categoryId);
 
+  if (!currentCategory) {
+    return res.redirect(`back`);
+  }
+
   return res.render(`articles-by-category`, {
     articles,
     categories,

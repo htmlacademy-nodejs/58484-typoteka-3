@@ -19,6 +19,13 @@ const HttpCode = {
   INTERNAL_SERVER_ERROR: 500,
 };
 
+const HttpMethod = {
+  GET: `GET`,
+  POST: `POST`,
+  PUT: `PUT`,
+  DELETE: `DELETE`
+};
+
 const Env = {
   DEVELOPMENT: `development`,
   PRODUCTION: `production`
@@ -37,6 +44,24 @@ const USER_ROLES = [
   `Автор`,
 ];
 
+
+const RegisterMessage = {
+  USER_ALREADY_REGISTER: `Пользователь с таким email уже зарегистрирован`,
+  WRONG_EMAIL: `Неправильный email`,
+  REQUIRED_FIELD: `Поле обязательно для заполнения`,
+  MIN_PASSWORD_LENGTH: `Пароль должен быть не меньше 6 символов`,
+  MAX_PASSWORD_LENGTH: `Пароль должен быть не больше 12 символов`,
+  PASSWORDS_NOT_EQUALS: `Пароли не совпадают`,
+  EMPTY_VALUE: `Не указано значение`,
+};
+
+const LoginMessage = {
+  USER_NOT_EXISTS: `Пользователь с таким email не зарегистрирован`,
+  WRONG_PASSWORD: `Неправильно введён логин или пароль`,
+  WRONG_EMAIL: `Неправильный email`,
+  REQUIRED_FIELD: `Поле обязательно для заполнения`,
+};
+
 module.exports = {
   MAX_ID_LENGTH,
   DEFAULT_COMMAND,
@@ -45,7 +70,10 @@ module.exports = {
   MOCKS_DB_FILE_NAME,
   ExitCode,
   HttpCode,
+  HttpMethod,
   Env,
   MockFileName,
   USER_ROLES,
+  RegisterMessage,
+  LoginMessage
 };

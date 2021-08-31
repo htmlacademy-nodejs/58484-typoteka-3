@@ -5,6 +5,7 @@ const Aliase = require(`../models/aliase`);
 class CommentService {
   constructor(sequelize) {
     this._Comment = sequelize.models.Comment;
+    this._User = sequelize.models.User;
   }
 
   create(articleId, comment) {
@@ -21,7 +22,13 @@ class CommentService {
       where: {articleId},
       raw: true,
       nest: true,
-      include: [Aliase.USER]
+      include: {
+        model: this._User,
+        as: Aliase.USER,
+        attributes: {
+          exclude: [`password`]
+        }
+      }
     });
   }
 
@@ -36,6 +43,21 @@ class CommentService {
 
     return !!deletedRows;
   }
+
+  async getLastComments(limit) {
+    return this._Comment.findAll({
+      include: {
+        model: this._User,
+        as: Aliase.USER,
+        attributes: {
+          exclude: [`password`]
+        }
+      },
+      order: [[`created_at`, `DESC`]],
+      limit
+    });
+  }
+
 }
 
 module.exports = CommentService;

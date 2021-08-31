@@ -1,0 +1,15 @@
+section.main-page__last.last
+  h2.last__name
+    | Последние комментарии
+    span.last__icon.last__icon--cloud
+  if lastComments.length
+    ul.last__list
+      each comment in lastComments
+        - var user = comment.user
+
+        li.last__list-item
+          img.last__list-image(src=`img/${user.avatar}` width='20' height='20' alt='Аватар пользователя')
+          b.last__list-name #{user.firstName} #{user.lastName}
+          a.last__list-link(href=`/articles/${comment.articleId}#post-comments`) #{truncate(comment.text)}
+  else
+    p Здесь пока ничего нет

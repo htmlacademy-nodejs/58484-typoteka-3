@@ -18,11 +18,12 @@ class CategoryService {
           [
             Sequelize.fn(
                 `COUNT`,
-                `*`
+                Sequelize.col(`article_category.article_id`)
             ),
             `count`
           ]
         ],
+        having: Sequelize.literal(`count(article_category.article_id) > 0`),
         group: [Sequelize.col(`Category.id`)],
         include: [{
           model: this._ArticleCategory,
@@ -30,6 +31,7 @@ class CategoryService {
           attributes: []
         }]
       });
+
       return result.map((it) => it.get());
     } else {
       return await this._Category.findAll({raw: true});

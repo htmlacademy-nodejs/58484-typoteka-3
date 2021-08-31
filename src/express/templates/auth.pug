@@ -1,0 +1,52 @@
+extends layouts/basic
+
+block content
+  - var isRegisterPage = currentUrl === '/register';
+  - var isLoginPage = currentUrl === '/login';
+
+  main
+    h1.visually-hidden Регистрация пользователя
+    section.modal
+      .popup.popup--registration
+        a.popup__button.button.button--popup-close(aria-label='Закрыть окно' href='/') Закрыть окно
+        h2.visually-hidden Форма регистрации
+        ul.popup__tabs
+          li.popup__tab.popup__tab--register(class=`${isRegisterPage ? 'popup__tab--active' : ''}`)
+            button.popup__tab-switcher.button(type='button') Регистрация
+          li.popup__tab.popup__tab--log-in(class=`${isLoginPage ? 'popup__tab--active' : ''}`)
+            button.popup__tab-switcher.button(type='button') Войти
+        .popup__form.form.form--register(class=`${isRegisterPage ? 'popup__form--active': 'popup__form--hidden'}`)
+          form(action='/register' method='post' enctype='multipart/form-data' autocomplete='off')
+            .form__field
+              label
+                input(type='email' placeholder='Электронная почта' name='email' value=error && error.data.email required)
+            .form__field
+              label
+                input(type='text' placeholder='Имя' name='first-name' value=error && error.data.firstName required)
+            .form__field
+              label
+                input(type='text' placeholder='Фамилия' name='last-name' value=error && error.data.lastName)
+            .form__field
+              label
+                input(type='password' placeholder='Пароль' name='password' required)
+            .form__field
+              label
+                input(type='password' placeholder='Повтор пароля' name='password-repeated' required)
+            .form__image-loader
+              a.form__avatar.avatar
+                img(src='/img/icons/smile.svg' alt='аватар пользователя')
+              label
+                input.visually-hidden(type='file' name='avatar')
+                | Загрузить фото профиля
+            button.form__submit-btn.form__submit-btn--register.button.button--colored(type='submit') Зарегистрироваться
+        .popup__form.form.form--log-in(class=`${isLoginPage ? 'popup__form--active' : 'popup__form--hidden'}`)
+          form(action='/login' method='post')
+            .form__field
+              label
+                input(type='email' placeholder='Электронная почта' name='email' required)
+            .form__field
+              label
+                input(type='password' placeholder='Пароль' name='password' required)
+            button.form__submit-btn.form__submit-btn--log-in.button.button--colored(type='submit') Войти
+      .modal__overlay
+

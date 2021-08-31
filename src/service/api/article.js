@@ -26,6 +26,14 @@ module.exports = (app, articleService, commentService) => {
       .json(articles);
   });
 
+  route.get(`/hot`, async (req, res) => {
+    const articles = await articleService.getHotArticles(req.query.limit);
+
+    return res
+      .status(HttpCode.OK)
+      .json(articles);
+  });
+
   route.get(`/:articleId`,
       paramValidator(idSchema, `articleId`),
       articleExist(articleService),
@@ -33,7 +41,7 @@ module.exports = (app, articleService, commentService) => {
         const {articleId} = req.params;
         const {comments: needComments} = req.query;
 
-        const comments = needComments ? {comments: await commentService.findAll(articleId)} : {};
+        const comments = needComments ? await commentService.findAll(articleId) : {};
         const article = {
           ...res.locals.article.get(),
           comments

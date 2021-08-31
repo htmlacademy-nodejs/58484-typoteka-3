@@ -13,7 +13,8 @@ const define = (sequelize) => Role.init({
   sequelize,
   modelName: `Role`,
   tableName: `roles`,
-  underscored: true
+  underscored: true,
+  timestamps: false,
 });
 
 module.exports = define;
