@@ -189,7 +189,8 @@ describe(`service/api/article.js`, () => {
     });
 
     it(`Without any required property response code is 400`, async () => {
-      for (const key of Object.keys(newArticle)) {
+      // eslint-disable-next-line max-nested-callbacks
+      const promises = Object.keys(newArticle).map(async (key) => {
         const badOffer = {...newArticle};
         delete badOffer[key];
 
@@ -198,8 +199,9 @@ describe(`service/api/article.js`, () => {
           .send(badOffer);
 
         expect(response.statusCode).toBe(HttpCode.BAD_REQUEST);
-      }
+      });
 
+      await Promise.all(promises);
     });
 
   });

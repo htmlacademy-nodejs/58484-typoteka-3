@@ -17,12 +17,17 @@ module.exports = (app, articleService, commentService) => {
 
   route.get(`/`, async (req, res) => {
     const {offset, limit, comments} = req.query;
-    let articles;
-    if (limit || offset) {
-      articles = await articleService.findPage({limit, offset});
-    } else {
-      articles = await articleService.findAll(comments);
-    }
+    const articles = (limit || offset) ?
+      await articleService.findPage({limit, offset}) :
+      await articleService.findAll(comments);
+
+    return res
+      .status(HttpCode.OK)
+      .json(articles);
+  });
+
+  route.get(`/hot`, async (req, res) => {
+    const articles = await articleService.getHotArticles(req.query.limit);
 
     return res
       .status(HttpCode.OK)
@@ -35,12 +40,12 @@ module.exports = (app, articleService, commentService) => {
       async (req, res) => {
         const {articleId} = req.params;
         const {comments: needComments} = req.query;
-        let article = res.locals.article.get();
 
-        if (needComments) {
-          const comments = await commentService.findAll(articleId);
-          article = {...article, comments};
-        }
+        const comments = needComments ? {comments: await commentService.findAll(articleId)} : {};
+        const article = {
+          ...res.locals.article.get(),
+          ...comments
+        };
 
         return res
         .status(HttpCode.OK)

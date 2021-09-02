@@ -1,0 +1,13 @@
+section.main-page__hot.hot
+  h2.hot__name
+    | Самое обсуждаемое
+    span.hot__icon.hot__icon--fire
+  if hotArticles.length
+    ul.hot__list
+      each articles in hotArticles
+        li.hot__list-item
+          a.hot__list-link(href=`/articles/${articles.id}`)
+            | #{truncate(articles.announce)}
+            sup.hot__link-sup= articles.comments_count
+  else
+    p Здесь пока ничего нет

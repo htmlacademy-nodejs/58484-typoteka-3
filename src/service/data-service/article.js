@@ -1,5 +1,6 @@
 'use strict';
 
+const Sequelize = require(`sequelize`);
 const Aliase = require(`../models/aliase`);
 
 class ArticleService {
@@ -79,6 +80,25 @@ class ArticleService {
     ]);
 
     return {count, articles};
+  }
+
+  async getHotArticles(limit) {
+    return await this._Article.findAll({
+      include: [{
+        model: this._Comment,
+        as: Aliase.COMMENTS,
+        attributes: [],
+        duplicating: false
+      }],
+      attributes: [
+        `id`,
+        `announce`,
+        [Sequelize.fn(`COUNT`, Sequelize.col(`comments.id`)), `comments_count`]
+      ],
+      group: [Sequelize.col(`Article.id`)],
+      order: [[Sequelize.literal(`comments_count`), `DESC`]],
+      limit
+    });
   }
 
 }

@@ -19,6 +19,9 @@ html(lang='ru')
       }
 
   body
+    - var user = false;
+    - var truncate = (input) => input.length > 100 ? `${input.substring(0, 100)}...` : input;
+
     mixin pagination(page, totalPages, width, prefix)
       -
         let start = page - width;
@@ -35,14 +38,16 @@ html(lang='ru')
           start = 1;
         }
         let i = start - 1
-      ul.preview__pagination.pagination
-        li
-          a.pagination__button.button.button--backwards(class={'button--disabled': page <= 1} href=`${prefix}page=${page - 1}` aria-label='Страница назад') &Ncy;&acy;&zcy;&acy;&dcy;
-        while i++ < end
-          li.pagination__item(class={'pagination__item--active': i === page})
-            a(href=`${prefix}page=${i}`)= i
-        li
-          a.pagination__button.button.button--forward(class={'button--disabled': page >= totalPages} href=`${prefix}page=${page + 1}` aria-label='Страница вперед') &Vcy;&pcy;&iecy;&rcy;&iecy;&dcy;
+
+      if totalPages > 1
+        ul.preview__pagination.pagination
+          li
+            a.pagination__button.button.button--backwards(class={'button--disabled': page <= 1} href=`${prefix}page=${page - 1}` aria-label='Страница назад') &Ncy;&acy;&zcy;&acy;&dcy;
+          while i++ < end
+            li.pagination__item(class={'pagination__item--active': i === page})
+              a(href=`${prefix}page=${i}`)= i
+          li
+            a.pagination__button.button.button--forward(class={'button--disabled': page >= totalPages} href=`${prefix}page=${page + 1}` aria-label='Страница вперед') &Vcy;&pcy;&iecy;&rcy;&iecy;&dcy;
 
 
     mixin formatDate(rawDate)
