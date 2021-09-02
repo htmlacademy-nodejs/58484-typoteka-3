@@ -76,14 +76,9 @@ const registerUser = async (req, res) => {
     lastName: body[`last-name`],
     email: body[`email`],
     password: body[`password`],
-    passwordRepeated: body[`password-repeated`]
+    passwordRepeated: body[`password-repeated`],
+    ...(file ? {avatar: file.filename} : {})
   };
-
-  if (file) {
-    Object.assign(userData, {
-      avatar: file.filename,
-    });
-  }
 
   try {
     await api.createUser(userData);

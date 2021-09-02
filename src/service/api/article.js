@@ -41,10 +41,10 @@ module.exports = (app, articleService, commentService) => {
         const {articleId} = req.params;
         const {comments: needComments} = req.query;
 
-        const comments = needComments ? await commentService.findAll(articleId) : {};
+        const comments = needComments ? {comments: await commentService.findAll(articleId)} : {};
         const article = {
           ...res.locals.article.get(),
-          comments
+          ...comments
         };
 
         return res

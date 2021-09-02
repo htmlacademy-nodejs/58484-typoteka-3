@@ -82,7 +82,7 @@ const createAPI = async () => {
 
 describe(`service/api/user.js`, () => {
 
-  describe(`API returns a list of all articles`, () => {
+  describe(`API returns a list of all users`, () => {
     const validUserData = {
       firstName: `Сидор`,
       lastName: `Сидоров`,
@@ -104,8 +104,6 @@ describe(`service/api/user.js`, () => {
     it(`Status code 201`, () => {
       expect(response.statusCode).toBe(HttpCode.CREATED);
     });
-
-
   });
 
   describe(`API refuses to create user if data is invalid`, () => {
@@ -117,7 +115,6 @@ describe(`service/api/user.js`, () => {
       passwordRepeated: `sidorov`
     };
 
-
     let app;
 
     beforeAll(async () => {
@@ -125,7 +122,8 @@ describe(`service/api/user.js`, () => {
     });
 
     it(`Without any required property response code is 400`, async () => {
-      for (const key of Object.keys(validUserData)) {
+      // eslint-disable-next-line max-nested-callbacks
+      const promises = Object.keys(validUserData).map(async (key) => {
         const badUserData = {...validUserData};
         delete badUserData[key];
 
@@ -134,7 +132,9 @@ describe(`service/api/user.js`, () => {
           .send(badUserData);
 
         expect(response.statusCode).toBe(HttpCode.BAD_REQUEST);
-      }
+      });
+
+      await Promise.all(promises);
     });
 
     it(`When field type is wrong response code is 400`, async () => {
@@ -143,13 +143,16 @@ describe(`service/api/user.js`, () => {
         {...validUserData, email: 1}
       ];
 
-      for (const badUserData of badUsers) {
+      // eslint-disable-next-line max-nested-callbacks
+      const promises = badUsers.map(async (badUserData) => {
         const response = await request(app)
-        .post(`/user`)
-        .send(badUserData);
+          .post(`/user`)
+          .send(badUserData);
 
         expect(response.statusCode).toBe(HttpCode.BAD_REQUEST);
-      }
+      });
+
+      await Promise.all(promises);
     });
 
     it(`When field value is wrong response code is 400`, async () => {
@@ -157,20 +160,24 @@ describe(`service/api/user.js`, () => {
         {...validUserData, password: `short`, passwordRepeated: `short`},
         {...validUserData, email: `invalid`}
       ];
-      for (const badUserData of badUsers) {
+
+      // eslint-disable-next-line max-nested-callbacks
+      const promises = badUsers.map(async (badUserData) => {
         const response = await request(app)
-        .post(`/user`)
-        .send(badUserData);
+          .post(`/user`)
+          .send(badUserData);
 
         expect(response.statusCode).toBe(HttpCode.BAD_REQUEST);
-      }
+      });
+
+      await Promise.all(promises);
     });
 
     it(`When password and passwordRepeated are not equal, code is 400`, async () => {
       const badUserData = {...validUserData, passwordRepeated: `not sidorov`};
       const response = await request(app)
-      .post(`/user`)
-      .send(badUserData);
+        .post(`/user`)
+        .send(badUserData);
 
       expect(response.statusCode).toBe(HttpCode.BAD_REQUEST);
     });
@@ -179,8 +186,8 @@ describe(`service/api/user.js`, () => {
       const badUserData = {...validUserData, email: `ivanov@example.com`};
 
       const response = await request(app)
-      .post(`/user`)
-      .send(badUserData);
+        .post(`/user`)
+        .send(badUserData);
 
       expect(response.statusCode).toBe(HttpCode.BAD_REQUEST);
     });

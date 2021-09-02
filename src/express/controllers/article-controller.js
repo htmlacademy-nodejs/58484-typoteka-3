@@ -48,17 +48,12 @@ const update = async (req, res) => {
     announce: body.announcement,
     fullText: body[`full-text`],
     categories: Object.keys(body.category || {}),
+    ...(file ? {image: file.filename} : {})
   };
-
-  if (file) {
-    Object.assign(articleData, {
-      image: file.filename,
-    });
-  }
 
   try {
     const article = await api.updateArticle(articleData);
-    res.render(`post`, {article});
+    res.redirect(`/articles/${article.id}`);
   } catch (err) {
     req.session.error = err.response.data;
     res.redirect(`back`);
@@ -81,13 +76,8 @@ const store = async (req, res) => {
     announce: body.announcement,
     fullText: body[`full-text`],
     categories: Object.keys(body.category || {}),
+    ...(file ? {image: file.filename} : {})
   };
-
-  if (file) {
-    Object.assign(articleData, {
-      image: file.filename,
-    });
-  }
 
   try {
     await api.createArticle(articleData);

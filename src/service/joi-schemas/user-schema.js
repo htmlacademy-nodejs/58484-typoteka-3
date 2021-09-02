@@ -3,9 +3,9 @@
 const Joi = require(`joi`);
 
 module.exports = Joi.object({
-  firstName: Joi.string().pattern(/[^0-9$&+,:;=?@#|'<>.^*()%!]+/).required(),
+  firstName: Joi.string().pattern(/[A-Za-zА-Яа-я]+/).required(),
 
-  lastName: Joi.string().pattern(/[^0-9$&+,:;=?@#|'<>.^*()%!]+/).required(),
+  lastName: Joi.string().pattern(/[A-Za-zА-Яа-я]+/).required(),
 
   email: Joi.string().email().required(),
 
