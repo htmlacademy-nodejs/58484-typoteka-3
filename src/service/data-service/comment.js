@@ -9,10 +9,9 @@ class CommentService {
   }
 
   create(articleId, comment) {
-    const userId = 1; // temp! Use auth userId
     return this._Comment.create({
       articleId,
-      userId,
+      userId: global.user.id,
       ...comment
     });
   }

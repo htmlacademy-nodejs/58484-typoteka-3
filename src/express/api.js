@@ -77,6 +77,13 @@ class API {
     return await this._load(`/comments/last`, {params: {limit}});
   }
 
+  auth(email, password) {
+    return this._load(`/user/auth`, {
+      method: HttpMethod.POST,
+      data: {email, password}
+    });
+  }
+
 }
 
 const defaultAPI = new API(defaultUrl, TIMEOUT);

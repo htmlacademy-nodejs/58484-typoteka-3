@@ -8,11 +8,20 @@ block content
   - var fullText = article ? article.fullText : '';
   - var mainHead = article ? 'Редактировать публикацию' : 'Новая публикация';
 
+  style.
+    .new-publication__checkbox {
+      flex-wrap: wrap;
+    }
+    .new-publication__checkbox label {
+      margin-bottom: 5px;
+    }
+
   main
     section
       .popup.popup--new-publication.popup--anti
         .new-publication
           form(action=formAction method='POST' enctype='multipart/form-data' autocomplete='off')
+            input(type="hidden" name="_csrf" value=csrfToken)
             .new-publication__header
               h1 #{mainHead}
               .new-publication__date-form

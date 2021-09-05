@@ -19,7 +19,6 @@ html(lang='ru')
       }
 
   body
-    - var user = false;
     - var truncate = (input) => input.length > 100 ? `${input.substring(0, 100)}...` : input;
 
     mixin pagination(page, totalPages, width, prefix)

@@ -32,7 +32,8 @@ const show = async (req, res) => {
     categories,
     currentCategory,
     totalPages,
-    page
+    page,
+    user: req.session.user,
   });
 };
 

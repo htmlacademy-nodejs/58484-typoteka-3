@@ -7,6 +7,7 @@ const Sequelize = require(`sequelize`);
 const initDB = require(`../lib/init-db`);
 const user = require(`./user`);
 const UserService = require(`../data-service/user`);
+const password = require(`../lib/password`);
 const {createUser} = require(`../cli/factories/user-factory`);
 const {getRandomInt} = require(`../../utils`);
 const {HttpCode, USER_ROLES} = require(`../../constants`);
@@ -68,6 +69,9 @@ const createAPI = async () => {
   }));
   users.push(createUser({
     email: `ivanov@example.com`,
+    firstName: `Иван`,
+    lastName: `Иванов`,
+    password: password.hashSync(`ivanov`),
     roleId: getRandomInt(1, roles.length),
   }));
   const categoriesName = mockCategories.map(({name}) => name);
@@ -190,6 +194,63 @@ describe(`service/api/user.js`, () => {
         .send(badUserData);
 
       expect(response.statusCode).toBe(HttpCode.BAD_REQUEST);
+    });
+  });
+
+  describe(`API authenticate user if data is valid`, () => {
+    const validAuthData = {
+      email: `ivanov@example.com`,
+      password: `ivanov`
+    };
+
+    let response;
+
+    beforeAll(async () => {
+      const app = await createAPI();
+      response = await request(app)
+        .post(`/user/auth`)
+        .send(validAuthData);
+    });
+
+    it(`Status code is 200`, () => {
+      expect(response.statusCode).toBe(HttpCode.OK);
+    });
+
+    it(`User name is Иван Иванов`, () => {
+      expect(response.body.firstName).toBe(`Иван`);
+      expect(response.body.lastName).toBe(`Иванов`);
+    });
+  });
+
+  describe(`API refuses to authenticate user if data is invalid`, () => {
+    let app;
+
+    beforeAll(async () => {
+      app = await createAPI();
+    });
+
+    it(`If email is incorrect status is 401`, async () => {
+      const badAuthData = {
+        email: `not-exist@example.com`,
+        password: `petrov`
+      };
+      const response = await request(app)
+        .post(`/user/auth`)
+        .send(badAuthData);
+
+      expect(response.statusCode).toBe(HttpCode.UNAUTHORIZED);
+    });
+
+    it(`If password doesn't match status is 401`, async () => {
+      const badAuthData = {
+        email: `ivanov@example.com`,
+        password: `bad-password`
+      };
+      const response = await request(app)
+      .post(`/user/auth`)
+      .send(badAuthData);
+
+      expect(response.statusCode).toBe(HttpCode.UNAUTHORIZED);
     });
   });
 });

@@ -3,8 +3,9 @@
 const {Router} = require(`express`);
 const myRouter = new Router();
 const myController = require(`../controllers/my-controller`);
+const admin = require(`../middlewares/admin`);
 
-myRouter.get(`/`, myController.showMy);
-myRouter.get(`/comments`, myController.showComments);
+myRouter.get(`/`, [admin], myController.showMy);
+myRouter.get(`/comments`, [admin], myController.showComments);
 
 module.exports = myRouter;
