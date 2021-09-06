@@ -42,8 +42,22 @@ const updateCategory = async (req, res) => {
 
 };
 
+const deleteCategory = async (req, res) => {
+  const {id} = req.params;
+
+  try {
+    await api.deleteCategory(id);
+    res.redirect(`back`);
+  } catch (err) {
+    req.session.error = err.response.data;
+    res.redirect(`back`);
+  }
+
+};
+
 module.exports = {
   showCategories,
   storeCategory,
   updateCategory,
+  deleteCategory,
 };

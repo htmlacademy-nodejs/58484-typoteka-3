@@ -68,6 +68,10 @@ const LoginMessage = {
   REQUIRED_FIELD: `Поле обязательно для заполнения`,
 };
 
+const CategoryMessage = {
+  UNABLE_TO_DELETE: `Невозможно удалить. Категория имеет связанные статьи`
+};
+
 module.exports = {
   MAX_ID_LENGTH,
   DEFAULT_COMMAND,
@@ -83,4 +87,5 @@ module.exports = {
   RegisterMessage,
   LoginMessage,
   UserRole,
+  CategoryMessage,
 };

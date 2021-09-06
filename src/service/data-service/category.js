@@ -53,6 +53,18 @@ class CategoryService {
       where: {id},
     });
   }
+
+  async delete(id) {
+    return await this._Category.destroy({
+      where: {id}
+    });
+  }
+
+  async hasArticles(id) {
+    const category = await this._Category.findByPk(id);
+
+    return Boolean(category && await category.countArticles());
+  }
 }
 
 module.exports = CategoryService;

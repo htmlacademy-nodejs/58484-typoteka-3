@@ -33,7 +33,6 @@ const mockCategories = [
 
 const mockArticles = [
   {
-    "id": 1,
     "title": `Как собрать камни бесконечности new`,
     "publishedAt": `2021-03-20 09:32:01`,
     "announce": `Программировать не настолько сложно, как об этом говорят. Программировать не настолько сложно, как об этом говорят new. Простые ежедневные упражнения помогут достичь успеха. Первая большая ёлка была установлена только в 1938 году.`,
@@ -49,7 +48,6 @@ const mockArticles = [
     ]
   },
   {
-    "id": 2,
     "title": `Title`,
     "publishedAt": `2020-02-10 09:32:01`,
     "announce": `test announce`,
@@ -96,10 +94,6 @@ describe(`service/api/article.js`, () => {
 
     it(`Returns a list of 2 articles`, () => {
       expect(response.body.length).toBe(2);
-    });
-
-    it(`First article's id equals 1`, () => {
-      expect(response.body[0].id).toBe(1);
     });
 
   });
