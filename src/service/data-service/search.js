@@ -16,6 +16,7 @@ class SearchService {
         }
       },
       include: [Aliase.CATEGORIES],
+      order: [[`created_at`, `DESC`]],
     });
 
     return articles.map((article) => article.get());

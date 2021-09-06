@@ -21,7 +21,11 @@ const show = async (req, res) => {
           (articleCategories) => articleCategories.id).includes(cat.id)
   );
 
-  res.render(`post`, {article: {...article, categories: categoriesByArticle}, error});
+  res.render(`post`, {
+    article: {...article, categories: categoriesByArticle},
+    error,
+    user: req.session.user,
+  });
 };
 
 const edit = async (req, res) => {
@@ -34,7 +38,13 @@ const edit = async (req, res) => {
 
   const error = getSessionError(req);
 
-  res.render(`new-post`, {article, categories, error});
+  res.render(`new-post`, {
+    article,
+    categories,
+    error,
+    user: req.session.user,
+    csrfToken: req.csrfToken(),
+  });
 };
 
 const update = async (req, res) => {
@@ -64,7 +74,12 @@ const create = async (req, res) => {
   const error = getSessionError(req);
   const categories = await api.getCategories();
 
-  res.render(`new-post`, {categories, error});
+  res.render(`new-post`, {
+    categories,
+    error,
+    user: req.session.user,
+    csrfToken: req.csrfToken()
+  });
 };
 
 const store = async (req, res) => {

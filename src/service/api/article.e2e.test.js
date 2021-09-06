@@ -33,6 +33,7 @@ const mockCategories = [
 
 const mockArticles = [
   {
+    "id": 1,
     "title": `Как собрать камни бесконечности new`,
     "publishedAt": `2021-03-20 09:32:01`,
     "announce": `Программировать не настолько сложно, как об этом говорят. Программировать не настолько сложно, как об этом говорят new. Простые ежедневные упражнения помогут достичь успеха. Первая большая ёлка была установлена только в 1938 году.`,
@@ -48,6 +49,7 @@ const mockArticles = [
     ]
   },
   {
+    "id": 2,
     "title": `Title`,
     "publishedAt": `2020-02-10 09:32:01`,
     "announce": `test announce`,
@@ -344,6 +346,10 @@ describe(`service/api/article.js`, () => {
 
     const newComment = {
       text: `Валидному комментарию достаточно этого поля`
+    };
+
+    global.user = {
+      id: 1
     };
 
     let app;

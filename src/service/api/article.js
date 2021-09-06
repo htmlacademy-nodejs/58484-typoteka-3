@@ -106,6 +106,7 @@ module.exports = (app, articleService, commentService) => {
   ], async (req, res) => {
     const newComment = req.body;
     const {articleId} = req.params;
+
     const comment = await commentService.create(articleId, newComment);
 
     return res

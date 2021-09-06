@@ -36,7 +36,8 @@ const showMain = async (req, res) => {
     totalPages,
     error,
     hotArticles,
-    lastComments
+    lastComments,
+    user: req.session.user,
   });
 };
 
@@ -48,24 +49,48 @@ const showSearch = async (req, res) => {
 
     res.render(`search`, {
       results,
-      search
+      search,
+      user: req.session.user,
     });
   } catch (error) {
     res.render(`search`, {
       results: [],
-      search
+      search,
+      user: req.session.user,
     });
   }
 };
 
 const showLogin = (req, res) => {
-  res.render(`auth`, {currentUrl: req.url});
+  const error = getSessionError(req);
+
+  res.render(`auth`, {currentUrl: req.url, error});
+};
+
+const loginUser = async (req, res) => {
+  const {email, password} = req.body;
+  try {
+    req.session.user = await api.auth(email, password);
+    res.redirect(`/`);
+  } catch (err) {
+    req.session.error = err.response.data;
+    res.redirect(`back`);
+  }
+};
+
+const logout = async (req, res) => {
+  delete req.session.user;
+  res.redirect(`/login`);
 };
 
 const showRegister = (req, res) => {
   const error = getSessionError(req);
 
-  res.render(`auth`, {error, currentUrl: req.url});
+  res.render(`auth`, {
+    error,
+    currentUrl: req.url,
+    csrfToken: req.csrfToken(),
+  });
 };
 
 const registerUser = async (req, res) => {
@@ -95,4 +120,6 @@ module.exports = {
   showLogin,
   showRegister,
   registerUser,
+  loginUser,
+  logout,
 };

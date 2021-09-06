@@ -1,7 +1,7 @@
 'use strict';
 
 const {Router} = require(`express`);
-const {HttpCode} = require(`../../constants`);
+const {HttpCode, LoginMessage} = require(`../../constants`);
 const bodyValidator = require(`../middlewares/body-validator`);
 const userAlreadyRegister = require(`../middlewares/user-already-register`);
 const passwordUtils = require(`../lib/password`);
@@ -26,5 +26,31 @@ module.exports = (app, userService) => {
 
     return res.status(HttpCode.CREATED)
       .json(result);
+  });
+
+  route.post(`/auth`, async (req, res) => {
+    const {email, password} = req.body;
+    const user = await userService.findByEmail(email);
+
+    if (!user) {
+      res.status(HttpCode.UNAUTHORIZED).send({
+        message: [LoginMessage.WRONG_EMAIL],
+        data: email
+      });
+      return;
+    }
+
+    const passwordIsCorrect = await passwordUtils.compare(password, user.password);
+    if (!passwordIsCorrect) {
+      res.status(HttpCode.UNAUTHORIZED).send({
+        message: [LoginMessage.WRONG_PASSWORD],
+        data: email
+      });
+      return;
+    }
+
+    global.user = user;
+    delete user.password;
+    res.status(HttpCode.OK).json(user);
   });
 };

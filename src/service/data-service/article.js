@@ -33,7 +33,10 @@ class ArticleService {
     if (needComments) {
       include.push(Aliase.COMMENTS);
     }
-    const articles = await this._Article.findAll({include});
+    const articles = await this._Article.findAll({
+      include,
+      order: [[`created_at`, `DESC`]],
+    });
     return articles.map((item) => item.get());
   }
 
@@ -42,7 +45,8 @@ class ArticleService {
       limit,
       offset,
       include: [Aliase.CATEGORIES, Aliase.COMMENTS],
-      distinct: true
+      distinct: true,
+      order: [[`created_at`, `DESC`]],
     });
     return {count, articles: rows};
   }
