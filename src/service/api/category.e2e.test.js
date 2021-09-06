@@ -108,5 +108,52 @@ describe(`service/api/category.js`, () => {
     });
 
   });
+
+  describe(`API creates an category if data is valid`, () => {
+    const newCategory = {
+      category: `New category`
+    };
+
+    let response;
+
+    beforeAll(async () => {
+      response = await request(app)
+        .post(`/categories`)
+        .send(newCategory);
+    });
+
+    it(`Status code 201`, () => {
+      expect(response.statusCode).toBe(HttpCode.CREATED);
+    });
+
+    it(`Returns category created`, () => {
+      expect(response.body.title).toEqual(newCategory.category);
+    });
+
+    it(`Categories count is changed`, async () => {
+      response = await request(app)
+        .get(`/categories`);
+
+      expect(response.body.length).toBe(5);
+    });
+
+  });
+
+  describe(`API refuses to create an article if data is invalid`, () => {
+    const newCategory = {};
+
+    let response;
+
+    beforeAll(async () => {
+      response = await request(app)
+        .post(`/categories`)
+        .send(newCategory);
+    });
+
+    it(`Without any required property response code is 400`, () => {
+      expect(response.statusCode).toBe(HttpCode.BAD_REQUEST);
+    });
+
+  });
 });
 

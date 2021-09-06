@@ -13,7 +13,7 @@ class ArticleService {
   async create(articleData) {
     const article = await this._Article.create({
       ...articleData,
-      userId: 1 // TODO: set Auth user id
+      userId: global.user.id
     });
     await article.addCategories(articleData.categories);
 

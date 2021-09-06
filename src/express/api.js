@@ -45,6 +45,15 @@ class API {
     return await this._load(`/categories`, {params: {count}});
   }
 
+  async createCategory(category) {
+    return await this._load(`/categories`, {
+      method: HttpMethod.POST,
+      data: {
+        category
+      }
+    });
+  }
+
   async createArticle(data) {
     return await this._load(`/articles`, {
       method: HttpMethod.POST,

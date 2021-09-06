@@ -8,6 +8,6 @@ const {UserRole} = require(`../../constants`);
 const csrfProtection = require(`csurf`)();
 
 categoriesRouter.get(`/`, [checkRoles(UserRole.ADMIN), csrfProtection], categoryController.showCategories);
-// TODO: Добавить возможность создавать и редактировать категории
+categoriesRouter.post(`/`, [checkRoles(UserRole.ADMIN), csrfProtection], categoryController.storeCategory);
 
 module.exports = categoriesRouter;
