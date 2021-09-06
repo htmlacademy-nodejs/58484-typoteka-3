@@ -41,15 +41,16 @@ module.exports = (app, userService) => {
     }
 
     const passwordIsCorrect = await passwordUtils.compare(password, user.password);
-
-    if (passwordIsCorrect) {
-      global.user = user;
-      delete user.password;
-      res.status(HttpCode.OK).json(user);
-    } else {
+    if (!passwordIsCorrect) {
       res.status(HttpCode.UNAUTHORIZED).send({
         message: [LoginMessage.WRONG_PASSWORD],
+        data: email
       });
+      return;
     }
+
+    global.user = user;
+    delete user.password;
+    res.status(HttpCode.OK).json(user);
   });
 };
