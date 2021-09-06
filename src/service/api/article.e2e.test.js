@@ -297,7 +297,7 @@ describe(`service/api/article.js`, () => {
       expect(response.body).toBeTruthy();
     });
 
-    it(`Offer count is 1 now`, async () => {
+    it(`Article count is 1 now`, async () => {
       response = await request(app)
         .get(`/articles`);
 

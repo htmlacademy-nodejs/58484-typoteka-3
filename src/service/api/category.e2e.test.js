@@ -139,7 +139,7 @@ describe(`service/api/category.js`, () => {
 
   });
 
-  describe(`API refuses to create an article if data is invalid`, () => {
+  describe(`API refuses to create an category if data is invalid`, () => {
     const newCategory = {};
 
     let response;
@@ -147,6 +147,53 @@ describe(`service/api/category.js`, () => {
     beforeAll(async () => {
       response = await request(app)
         .post(`/categories`)
+        .send(newCategory);
+    });
+
+    it(`Without any required property response code is 400`, () => {
+      expect(response.statusCode).toBe(HttpCode.BAD_REQUEST);
+    });
+
+  });
+
+  describe(`API changes existent category`, () => {
+    const newCategory = {
+      category: `updated category`
+    };
+
+    let response;
+
+    beforeAll(async () => {
+      response = await request(app)
+        .put(`/categories/edit/1`)
+        .send(newCategory);
+    });
+
+    it(`Status code 200`, () => {
+      expect(response.statusCode).toBe(HttpCode.OK);
+    });
+
+    it(`Returns changed category`, () => {
+      expect(response.body).toBeTruthy();
+    });
+
+    it(`Category have changed title equals "updated category"`, async () => {
+      response = await request(app)
+        .get(`/categories`);
+
+      expect(response.body[0].title).toBe(`updated category`);
+    });
+
+  });
+
+  describe(`API refuses to update an category if data is invalid`, () => {
+    const newCategory = {};
+
+    let response;
+
+    beforeAll(async () => {
+      response = await request(app)
+        .put(`/categories/edit/1`)
         .send(newCategory);
     });
 

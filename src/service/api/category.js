@@ -28,4 +28,14 @@ module.exports = (app, service) => {
       .status(HttpCode.CREATED)
       .json(category);
   });
+
+  route.put(`/edit/:id`, [
+    bodyValidator(categorySchema)
+  ], async (req, res) => {
+    const category = await service.update(req.params.id, req.body);
+
+    return res
+      .status(HttpCode.OK)
+      .json(category);
+  });
 };

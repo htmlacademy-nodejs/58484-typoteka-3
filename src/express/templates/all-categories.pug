@@ -15,7 +15,8 @@ block content
         ul.category__list
           each category in categories
             li.category__list-item
-              form(action='#' method='POST')
+              form(action=`/categories/edit/${category.id}` method='POST')
+                input(type="hidden" name="_csrf" value=csrfToken)
                 input(id=`modify-form-category-${category.id}` type='text' name='category' value=category.title)
                 label(for=`modify-form-category-${category.id}`)
                   span.visually-hidden Редактировать категорию

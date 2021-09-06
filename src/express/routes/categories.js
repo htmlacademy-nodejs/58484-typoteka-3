@@ -9,5 +9,6 @@ const csrfProtection = require(`csurf`)();
 
 categoriesRouter.get(`/`, [checkRoles(UserRole.ADMIN), csrfProtection], categoryController.showCategories);
 categoriesRouter.post(`/`, [checkRoles(UserRole.ADMIN), csrfProtection], categoryController.storeCategory);
+categoriesRouter.post(`/edit/:id`, [checkRoles(UserRole.ADMIN), csrfProtection], categoryController.updateCategory);
 
 module.exports = categoriesRouter;

@@ -54,6 +54,15 @@ class API {
     });
   }
 
+  async updateCategory(id, category) {
+    return await this._load(`/categories/edit/${id}`, {
+      method: HttpMethod.PUT,
+      data: {
+        category
+      }
+    });
+  }
+
   async createArticle(data) {
     return await this._load(`/articles`, {
       method: HttpMethod.POST,
