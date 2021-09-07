@@ -18,5 +18,6 @@ articlesRouter.post(`/edit/:id`, [uploader.single(`upload`), csrfProtection], ar
 articlesRouter.get(`/edit/:id`, [checkRoles(UserRole.ADMIN), csrfProtection], articleController.edit);
 articlesRouter.get(`/category/:id`, articleCategoryController.show);
 articlesRouter.post(`/:id/comments`, articleCommentController.store);
+articlesRouter.post(`/:id`, articleController.destroy);
 
 module.exports = articlesRouter;

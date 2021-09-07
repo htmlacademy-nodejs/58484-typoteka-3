@@ -6,7 +6,7 @@ block content
   main.main-page
     h1.visually-hidden Главная страница личного блога Типотека
     p.
-      Это приветственный текст, который владелец блога может выбрать, чтобы описать себя 👏
+      Это приветственный текст 👏
 
     section.main-page__theme-list
       h2.visually-hidden Список тем
@@ -19,9 +19,12 @@ block content
       include ./parts/_last-comments
     section.main-page__list.preview
       h2.visually-hidden Список превью статей
-      ul.preview__list
-        each article in articles
-          +article(article)
+      if articles.length > 0
+        ul.preview__list
+          each article in articles
+            +article(article)
+      else
+        p.preview__text.text--big Здесь пока пусто!
 
     .preview__toggle-wrapper
       +pagination(page, totalPages, 2, `?`)

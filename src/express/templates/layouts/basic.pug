@@ -49,7 +49,7 @@ html(lang='ru')
             a.pagination__button.button.button--forward(class={'button--disabled': page >= totalPages} href=`${prefix}page=${page + 1}` aria-label='Страница вперед') &Vcy;&pcy;&iecy;&rcy;&iecy;&dcy;
 
 
-    mixin formatDate(rawDate)
+    mixin formatDate(rawDate, withTime)
       -
         var date = new Date(rawDate)
         var isoDate = date.toISOString()
@@ -61,8 +61,9 @@ html(lang='ru')
           minute: 'numeric',
           hour12: false
         }).format(date)
+        var formatedDate = (withTime) ? `${d}.${m}.${y}, ${time}` : `${d}.${m}.${y}`
 
-      time(class=attributes.class datetime=isoDate)  #{d}.#{m}.#{y}, #{time}
+      time(class=attributes.class datetime=isoDate)= `${formatedDate}`
 
     if (error)
       +error(error)

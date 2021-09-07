@@ -1,4 +1,4 @@
-mixin error(error)
+mixin error(error, isStatic)
   // Styles
   style.
     .errors-block {
@@ -25,7 +25,7 @@ mixin error(error)
     }
 
   // Template
-  div.errors-block
+  div(class=`${isStatic ? '' : 'errors-block'}`)
     span.close='x'
     ul.errors !{error.message.map((err) => `<li class="error__item">${err}</li>`).join('')}
 

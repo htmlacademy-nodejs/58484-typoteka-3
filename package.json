@@ -5,7 +5,7 @@
   "main": "./src/service/service.js",
   "scripts": {
     "start": "npm run start-servers",
-    "start::debug": "cross-env LOG_LEVEL=info NODE_ENV=development node -r dotenv/config ./src/service/service.js",
+    "cli": "cross-env LOG_LEVEL=info NODE_ENV=development node -r dotenv/config ./src/service/service.js",
     "start-back-server": "cross-env LOG_LEVEL=info NODE_ENV=development nodemon -r dotenv/config ./src/service/service.js --server",
     "start-front-server": "cross-env LOG_LEVEL=info NODE_ENV=development nodemon -r dotenv/config ./src/express/",
     "start-servers": "concurrently --names \"BACK,FRONT\" --prefix-colors \"green,blue\" \"npm run start-back-server\" \"npm run start-front-server\"",

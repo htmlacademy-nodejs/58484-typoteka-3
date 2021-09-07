@@ -37,7 +37,7 @@ block content
               a.form__avatar.avatar
                 img(src='/img/icons/smile.svg' alt='аватар пользователя')
               label
-                input.visually-hidden(type='file' name='avatar')
+                input.visually-hidden(type='file' name='avatar' accept='image/png, image/jpeg')
                 | Загрузить фото профиля
             button.form__submit-btn.form__submit-btn--register.button.button--colored(type='submit') Зарегистрироваться
         .popup__form.form.form--log-in(class=`${isLoginPage ? 'popup__form--active' : 'popup__form--hidden'}`)

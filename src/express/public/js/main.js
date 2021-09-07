@@ -4,6 +4,7 @@
 // логика выбора даты в календаре
 
 let calendar = document.querySelector('.calendar');
+
 if (calendar) {
   let dates = calendar.querySelector('.calendar__dates');
   let selectedDate = dates.querySelector('.calendar__date--selected');
