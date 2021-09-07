@@ -64,7 +64,11 @@ const showSearch = async (req, res) => {
 const showLogin = (req, res) => {
   const error = getSessionError(req);
 
-  res.render(`auth`, {currentUrl: req.url, error});
+  res.render(`auth`, {
+    currentUrl: req.url,
+    error,
+    csrfToken: req.csrfToken(),
+  });
 };
 
 const loginUser = async (req, res) => {

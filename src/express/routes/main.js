@@ -8,7 +8,7 @@ const csrfProtection = require(`csurf`)();
 
 mainRouter.get(`/`, mainController.showMain);
 mainRouter.get(`/search`, mainController.showSearch);
-mainRouter.get(`/login`, mainController.showLogin);
+mainRouter.get(`/login`, [csrfProtection], mainController.showLogin);
 mainRouter.post(`/login`, mainController.loginUser);
 mainRouter.get(`/register`, csrfProtection, mainController.showRegister);
 mainRouter.post(`/register`, [uploader.single(`avatar`), csrfProtection], mainController.registerUser);

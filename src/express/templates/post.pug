@@ -4,6 +4,11 @@ include parts/_comment
 include parts/_category
 
 block content
+  style.
+    .post__picture img {
+      margin: 0 auto;
+    }
+
   main
     section.post
       h1.visually-hidden Пост
@@ -17,6 +22,8 @@ block content
             ul.post__themes.themes
               each category in article.categories
                 +category(category)
+            if user && user.isAdmin
+              a.button.button--colored.header__button-new(href=`/articles/edit/${article.id}`) Редактировать
           if article.image
             .post__picture
               img(src=`/img/${article.image}` alt=article.title)
@@ -40,6 +47,7 @@ block content
           if user
             .comments__footer.comments__footer--user
               form(action=`/articles/${article.id}/comments` method='POST')
+                input(type="hidden" name="_csrf" value=csrfToken)
                 .comments__avatar.avatar
                   img(src=`/img/${user.avatar}` alt='аватар пользователя')
                 label

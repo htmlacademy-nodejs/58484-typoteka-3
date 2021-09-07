@@ -1,6 +1,21 @@
 'use strict';
 
-const bcrypt = require(`bcrypt`);
+const {UserRole} = require(`../../constants`);
+
+const capitalized = ([first, ...rest]) => `${first}${rest.join(``).toLowerCase()}`;
+
+const createAliases = (userRoleId) => {
+  const roles = Object.keys(UserRole);
+
+  return roles.reduce((acc, role) => {
+    const aliasKey = `is${capitalized(role)}`;
+
+    return {
+      ...acc,
+      [aliasKey]: Boolean(UserRole[role] === userRoleId)
+    };
+  }, {});
+};
 
 class UserService {
   constructor(sequelize) {
@@ -30,11 +45,15 @@ class UserService {
     const user = await this._User.findOne({
       where: {email}
     });
-    return user && user.get();
+
+    return user && this.addRoleAlias(user.get());
   }
 
-  async checkUser(user, password) {
-    return await bcrypt.compare(password, user.password);
+  addRoleAlias(user) {
+    return {
+      ...user,
+      ...createAliases(user.roleId)
+    };
   }
 }
 

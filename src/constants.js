@@ -39,17 +39,14 @@ const MockFileName = {
 };
 
 const USER_ROLES = [
-  `Гость`,
   `Читатель`,
   `Автор`,
 ];
 
 const UserRole = {
-  GUEST: 1,
+  ADMIN: 1,
   READER: 2,
-  ADMIN: 3,
 };
-
 
 const RegisterMessage = {
   USER_ALREADY_REGISTER: `Пользователь с таким email уже зарегистрирован`,

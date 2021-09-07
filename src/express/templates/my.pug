@@ -11,5 +11,6 @@ block content
               +formatDate(article.createdAt)(class='notes__item')
               a.notes__item-text(href=`/articles/${article.id}`) #{article.title}
               form(action=`/articles/${article.id}` method='POST')
+                input(type="hidden" name="_csrf" value=csrfToken)
                 button.notes__button.button.button--close-item(type='submit')
                   span.visually-hidden Закрыть строку списка

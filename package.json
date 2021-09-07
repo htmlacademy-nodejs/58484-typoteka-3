@@ -12,7 +12,9 @@
     "test::rest": "npm run eslint && npm run jest",
     "test": "npm run test::rest",
     "jest": "jest",
-    "eslint": "eslint --ext .js src/"
+    "eslint": "eslint --ext .js src/",
+    "cli:filldb": "npm run cli -- --filldb 100",
+    "cli:fill": "npm run cli -- --fill 100"
   },
   "repository": {
     "type": "git",

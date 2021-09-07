@@ -25,6 +25,7 @@ const show = async (req, res) => {
     article: {...article, categories: categoriesByArticle},
     error,
     user: req.session.user,
+    csrfToken: req.csrfToken(),
   });
 };
 

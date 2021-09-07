@@ -6,6 +6,6 @@ mixin comment(comment)
       img(src=`/img/${user.avatar}` alt='аватар пользователя')
     .comments__text
       .comments__head
-        p=`${user.firstName} ${user.lastName}`
+        p=`${user.fullName}`
         +formatDate(comment.createdAt)(class='comments__date')
       p.comments__message=comment.text

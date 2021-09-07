@@ -7,6 +7,7 @@ const showMy = async (req, res) => {
   res.render(`my`, {
     articles,
     user: req.session.user,
+    csrfToken: req.csrfToken(),
   });
 };
 
