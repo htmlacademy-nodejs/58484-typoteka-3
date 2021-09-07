@@ -135,9 +135,9 @@ describe(`service/api/article.js`, () => {
   describe(`API creates an article if data is valid`, () => {
     const newArticle = {
       categories: [1, 2],
-      title: `Дам погладить котика`,
+      title: `Дам погладить котика Дам погладить котика`,
       fullText: `Дам погладить котика. Дорого. Не гербалайф`,
-      announce: `Дам погладить котика`,
+      announce: `Дам погладить котика Дам погладить котика`,
       publishedAt: new Date(`2020-11-11 17:02:47`).toISOString()
     };
 
@@ -205,9 +205,9 @@ describe(`service/api/article.js`, () => {
   describe(`API changes existent article`, () => {
     const newArticle = {
       categories: [1, 2],
-      title: `Дам погладить котика`,
-      fullText: `Дам погладить котика. Дорого. Не гербалайф`,
-      announce: `Дам погладить котика`,
+      title: `Дам погладить котика Дам погладить котика`,
+      fullText: `Дам погладить котика Дам погладить котика. Дорого. Не гербалайф`,
+      announce: `Дам погладить котика Дам погладить котика`,
       publishedAt: new Date(`2020-11-11 17:02:47`).toISOString()
     };
 
@@ -229,11 +229,11 @@ describe(`service/api/article.js`, () => {
       expect(response.body).toBeTruthy();
     });
 
-    it(`Offer have changed title equals "Дам погладить котика"`, async () => {
+    it(`Offer have changed title equals "Дам погладить котика Дам погладить котика"`, async () => {
       response = await request(app)
         .get(`/articles/1`);
 
-      expect(response.body.title).toBe(`Дам погладить котика`);
+      expect(response.body.title).toBe(`Дам погладить котика Дам погладить котика`);
     });
 
   });
