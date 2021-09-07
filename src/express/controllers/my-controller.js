@@ -11,14 +11,23 @@ const showMy = async (req, res) => {
 };
 
 const showComments = async (req, res) => {
-  const articles = await api.getArticles({comments: true});
+  const comments = await api.getComments() || [];
   res.render(`comments`, {
-    articles: articles.slice(0, 3),
+    comments,
     user: req.session.user,
+    csrfToken: req.csrfToken(),
   });
+};
+
+const deleteComment = async (req, res) => {
+  const {id} = req.params;
+  await api.deleteComment(id);
+
+  return res.redirect(`back`);
 };
 
 module.exports = {
   showMy,
   showComments,
+  deleteComment,
 };

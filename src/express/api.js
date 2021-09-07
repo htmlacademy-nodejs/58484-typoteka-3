@@ -97,6 +97,10 @@ class API {
     });
   }
 
+  async getComments() {
+    return await this._load(`/comments`);
+  }
+
   async getLastComments(limit) {
     return await this._load(`/comments/last`, {params: {limit}});
   }
@@ -105,6 +109,12 @@ class API {
     return this._load(`/user/auth`, {
       method: HttpMethod.POST,
       data: {email, password}
+    });
+  }
+
+  async deleteComment(id) {
+    return await this._load(`/comments/${id}`, {
+      method: HttpMethod.DELETE
     });
   }
 
