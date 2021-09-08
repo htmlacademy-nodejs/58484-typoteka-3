@@ -17,14 +17,12 @@ module.exports = (app, userService) => {
     userAlreadyRegister(userService)
   ], async (req, res) => {
     const data = req.body;
-
     data.passwordHash = await passwordUtils.hash(data.password);
-
     const result = await userService.create(data);
-
     delete result.passwordHash;
 
-    return res.status(HttpCode.CREATED)
+    return res
+      .status(HttpCode.CREATED)
       .json(result);
   });
 

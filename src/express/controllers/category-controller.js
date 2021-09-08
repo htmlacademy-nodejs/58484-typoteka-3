@@ -20,12 +20,11 @@ const storeCategory = async (req, res) => {
 
   try {
     await api.createCategory(category);
-    res.redirect(`back`);
   } catch (err) {
     req.session.error = err.response.data;
-    res.redirect(`back`);
   }
 
+  res.redirect(`back`);
 };
 
 const updateCategory = async (req, res) => {
@@ -34,12 +33,11 @@ const updateCategory = async (req, res) => {
 
   try {
     await api.updateCategory(id, category);
-    res.redirect(`back`);
   } catch (err) {
     req.session.error = err.response.data;
-    res.redirect(`back`);
   }
 
+  res.redirect(`back`);
 };
 
 const deleteCategory = async (req, res) => {
@@ -47,12 +45,11 @@ const deleteCategory = async (req, res) => {
 
   try {
     await api.deleteCategory(id);
-    res.redirect(`back`);
   } catch (err) {
     req.session.error = err.response.data;
-    res.redirect(`back`);
   }
 
+  res.redirect(`back`);
 };
 
 module.exports = {

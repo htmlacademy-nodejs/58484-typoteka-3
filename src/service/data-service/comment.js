@@ -32,26 +32,26 @@ class CommentService {
         },
         order: [[`created_at`, `DESC`]],
       });
-    } else {
-      return this._Comment.findAll({
-        raw: true,
-        nest: true,
-        include: [
-          {
-            model: this._User,
-            as: Aliase.USER,
-            attributes: {
-              exclude: [`password`]
-            }
-          },
-          {
-            model: this._Article,
-            as: Aliase.ARTICLE
-          }
-        ],
-        order: [[`created_at`, `DESC`]],
-      });
     }
+
+    return this._Comment.findAll({
+      raw: true,
+      nest: true,
+      include: [
+        {
+          model: this._User,
+          as: Aliase.USER,
+          attributes: {
+            exclude: [`password`]
+          }
+        },
+        {
+          model: this._Article,
+          as: Aliase.ARTICLE
+        }
+      ],
+      order: [[`created_at`, `DESC`]],
+    });
   }
 
   findOne(id) {

@@ -4,6 +4,7 @@ const api = require(`../api`).getAPI();
 
 const showMy = async (req, res) => {
   const articles = await api.getArticles();
+
   res.render(`my`, {
     articles,
     user: req.session.user,
@@ -13,6 +14,7 @@ const showMy = async (req, res) => {
 
 const showComments = async (req, res) => {
   const comments = await api.getComments() || [];
+
   res.render(`comments`, {
     comments,
     user: req.session.user,
