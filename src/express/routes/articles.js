@@ -13,10 +13,11 @@ const csrfProtection = require(`csurf`)();
 
 articlesRouter.post(`/add`, [uploader.single(`upload`), csrfProtection], articleController.store);
 articlesRouter.get(`/add`, [auth, checkRoles(UserRole.ADMIN), csrfProtection], articleController.create);
-articlesRouter.get(`/:id`, articleController.show);
+articlesRouter.get(`/:id`, [csrfProtection], articleController.show);
 articlesRouter.post(`/edit/:id`, [uploader.single(`upload`), csrfProtection], articleController.update);
 articlesRouter.get(`/edit/:id`, [checkRoles(UserRole.ADMIN), csrfProtection], articleController.edit);
 articlesRouter.get(`/category/:id`, articleCategoryController.show);
-articlesRouter.post(`/:id/comments`, articleCommentController.store);
+articlesRouter.post(`/:id/comments`, [csrfProtection], articleCommentController.store);
+articlesRouter.post(`/:id`, articleController.destroy);
 
 module.exports = articlesRouter;

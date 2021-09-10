@@ -6,7 +6,7 @@ block content
       section.main-page__category.category
         h1.category__title Категории
         .category__add-form
-          form(action='#' method='POST')
+          form(action='/categories' method='POST')
             input(type="hidden" name="_csrf" value=csrfToken)
             input#add-form-add-category(type='text' name='category' placeholder='Новая категория')
             label(for='add-form-add-category')
@@ -15,9 +15,10 @@ block content
         ul.category__list
           each category in categories
             li.category__list-item
-              form(action='#' method='POST')
+              form(method='POST')
+                input(type="hidden" name="_csrf" value=csrfToken)
                 input(id=`modify-form-category-${category.id}` type='text' name='category' value=category.title)
                 label(for=`modify-form-category-${category.id}`)
                   span.visually-hidden Редактировать категорию
-                button.category__button.button.button--category(type='submit') Сохранить
-                button.category__button.button.button--category(type='button') Удалить
+                button.category__button.button.button--category(type='submit' formaction=`/categories/edit/${category.id}`) Сохранить
+                button.category__button.button.button--category(type='submit' formaction=`/categories/${category.id}`) Удалить

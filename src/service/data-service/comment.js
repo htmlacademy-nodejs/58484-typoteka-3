@@ -6,6 +6,7 @@ class CommentService {
   constructor(sequelize) {
     this._Comment = sequelize.models.Comment;
     this._User = sequelize.models.User;
+    this._Article = sequelize.models.Article;
   }
 
   create(articleId, comment) {
@@ -17,17 +18,39 @@ class CommentService {
   }
 
   findAll(articleId) {
+    if (articleId) {
+      return this._Comment.findAll({
+        where: {articleId},
+        raw: true,
+        nest: true,
+        include: {
+          model: this._User,
+          as: Aliase.USER,
+          attributes: {
+            exclude: [`password`]
+          }
+        },
+        order: [[`created_at`, `DESC`]],
+      });
+    }
+
     return this._Comment.findAll({
-      where: {articleId},
       raw: true,
       nest: true,
-      include: {
-        model: this._User,
-        as: Aliase.USER,
-        attributes: {
-          exclude: [`password`]
+      include: [
+        {
+          model: this._User,
+          as: Aliase.USER,
+          attributes: {
+            exclude: [`password`]
+          }
+        },
+        {
+          model: this._Article,
+          as: Aliase.ARTICLE
         }
-      }
+      ],
+      order: [[`created_at`, `DESC`]],
     });
   }
 

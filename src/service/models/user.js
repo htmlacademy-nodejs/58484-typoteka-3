@@ -26,6 +26,14 @@ const define = (sequelize) => User.init({
     type: DataTypes.STRING,
     allowNull: false
   },
+  fullName: {
+    type: DataTypes.VIRTUAL,
+    get() {
+      return `${this.firstName} ${this.lastName}`;
+    },
+    set() {
+      throw new Error(`Do not try to set the 'fullName' value!`);
+    }}
 }, {
   sequelize,
   modelName: `User`,

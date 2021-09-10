@@ -48,8 +48,8 @@ module.exports = (app, articleService, commentService) => {
         };
 
         return res
-        .status(HttpCode.OK)
-        .json(article);
+          .status(HttpCode.OK)
+          .json(article);
       });
 
   route.post(`/`, bodyValidator(articleSchema), async (req, res) => {

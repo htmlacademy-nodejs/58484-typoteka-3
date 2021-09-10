@@ -9,7 +9,7 @@ section.main-page__last.last
 
         li.last__list-item
           img.last__list-image(src=`img/${user.avatar}` width='20' height='20' alt='Аватар пользователя')
-          b.last__list-name #{user.firstName} #{user.lastName}
+          b.last__list-name #{user.fullName}
           a.last__list-link(href=`/articles/${comment.articleId}#post-comments`) #{truncate(comment.text)}
   else
     p Здесь пока ничего нет

@@ -5,15 +5,22 @@ block content
     main.main-page.main-page--padding
       section.main-page__publication.publication
         h1.publication__title Комментарии
-        ul.publication__list
-          each article in articles
-            each comment in article.comments
+        if comments.length > 0
+          ul.publication__list
+            each comment in comments
+              - var user = comment.user
+              - var article = comment.article
+
               li.publication__list-item
                 .publication__header
-                  img.publication__list-image(src='/img/avatar-small-2.png' width='20' height='20' alt='Аватар пользователя')
-                  b.publication__list-name Александр Петров
-                  +formatDate(comment.createdAt)(class='publication__item-time')
-                a.publication__item-text(href='#') #{comment.text}
+                  img.publication__list-image(src=`/img/${user.avatar}` width='20' height='20' alt='Аватар пользователя')
+                  b.publication__list-name #{user.fullName}
+                  +formatDate(comment.createdAt, true)(class='publication__item-time')
+                a.publication__item-text(href=`/articles/${comment.articleId}#post-comments`) #{comment.text}
                 p.publication__text-strong #{article.title}
-                button.publication__button.button.button--close-item(type='button')
-                  span.visually-hidden Закрыть строку списка
+                form(action=`/my/comments/${comment.id}` method='POST')
+                  input(type="hidden" name="_csrf" value=csrfToken)
+                  button.publication__button.button.button--close-item(type='submit')
+                    span.visually-hidden Закрыть строку списка
+        else
+          p.publication__text-strong Тут еще ничего нет

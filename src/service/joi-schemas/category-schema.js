@@ -3,5 +3,5 @@
 const Joi = require(`joi`);
 
 module.exports = Joi.object({
-  text: Joi.string().min(20).required()
+  category: Joi.string().min(5).max(30).required(),
 });

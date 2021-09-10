@@ -33,7 +33,6 @@ const mockCategories = [
 
 const mockArticles = [
   {
-    "id": 1,
     "title": `Как собрать камни бесконечности new`,
     "publishedAt": `2021-03-20 09:32:01`,
     "announce": `Программировать не настолько сложно, как об этом говорят. Программировать не настолько сложно, как об этом говорят new. Простые ежедневные упражнения помогут достичь успеха. Первая большая ёлка была установлена только в 1938 году.`,
@@ -49,7 +48,6 @@ const mockArticles = [
     ]
   },
   {
-    "id": 2,
     "title": `Title`,
     "publishedAt": `2020-02-10 09:32:01`,
     "announce": `test announce`,
@@ -98,10 +96,6 @@ describe(`service/api/article.js`, () => {
       expect(response.body.length).toBe(2);
     });
 
-    it(`First article's id equals 1`, () => {
-      expect(response.body[0].id).toBe(1);
-    });
-
   });
 
   describe(`API returns an article with given id`, () => {
@@ -141,9 +135,9 @@ describe(`service/api/article.js`, () => {
   describe(`API creates an article if data is valid`, () => {
     const newArticle = {
       categories: [1, 2],
-      title: `Дам погладить котика`,
+      title: `Дам погладить котика Дам погладить котика`,
       fullText: `Дам погладить котика. Дорого. Не гербалайф`,
-      announce: `Дам погладить котика`,
+      announce: `Дам погладить котика Дам погладить котика`,
       publishedAt: new Date(`2020-11-11 17:02:47`).toISOString()
     };
 
@@ -211,9 +205,9 @@ describe(`service/api/article.js`, () => {
   describe(`API changes existent article`, () => {
     const newArticle = {
       categories: [1, 2],
-      title: `Дам погладить котика`,
-      fullText: `Дам погладить котика. Дорого. Не гербалайф`,
-      announce: `Дам погладить котика`,
+      title: `Дам погладить котика Дам погладить котика`,
+      fullText: `Дам погладить котика Дам погладить котика. Дорого. Не гербалайф`,
+      announce: `Дам погладить котика Дам погладить котика`,
       publishedAt: new Date(`2020-11-11 17:02:47`).toISOString()
     };
 
@@ -235,11 +229,11 @@ describe(`service/api/article.js`, () => {
       expect(response.body).toBeTruthy();
     });
 
-    it(`Offer have changed title equals "Дам погладить котика"`, async () => {
+    it(`Offer have changed title equals "Дам погладить котика Дам погладить котика"`, async () => {
       response = await request(app)
         .get(`/articles/1`);
 
-      expect(response.body.title).toBe(`Дам погладить котика`);
+      expect(response.body.title).toBe(`Дам погладить котика Дам погладить котика`);
     });
 
   });
@@ -297,7 +291,7 @@ describe(`service/api/article.js`, () => {
       expect(response.body).toBeTruthy();
     });
 
-    it(`Offer count is 1 now`, async () => {
+    it(`Article count is 1 now`, async () => {
       response = await request(app)
         .get(`/articles`);
 

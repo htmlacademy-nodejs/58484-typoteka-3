@@ -25,6 +25,7 @@ const show = async (req, res) => {
     article: {...article, categories: categoriesByArticle},
     error,
     user: req.session.user,
+    csrfToken: req.csrfToken(),
   });
 };
 
@@ -107,6 +108,13 @@ const showArticlesByCategory = (req, res) => {
   res.send(`/articles/category/${req.params.id}`);
 };
 
+const destroy = async (req, res) => {
+  const {id} = req.params;
+  await api.deleteArticle(id);
+
+  return res.redirect(`back`);
+};
+
 module.exports = {
   show,
   edit,
@@ -114,4 +122,5 @@ module.exports = {
   showArticlesByCategory,
   store,
   update,
+  destroy,
 };

@@ -96,5 +96,47 @@ describe(`service/api/category.js`, () => {
     });
 
   });
+
+  describe(`API returns a list of all comments`, () => {
+    let response;
+
+    beforeAll(async () => {
+      response = await request(app)
+        .get(`/comments`);
+    });
+
+    it(`Status code 200`, () => {
+      expect(response.statusCode).toBe(HttpCode.OK);
+    });
+
+    it(`Returns list of 3 comments`, () => {
+      expect(response.body.length).toBe(3);
+    });
+  });
+
+  describe(`API correctly deletes an comments`, () => {
+    let response;
+
+    beforeAll(async () => {
+      response = await request(app)
+        .delete(`/comments/1`);
+    });
+
+    it(`Status code 200`, () => {
+      expect(response.statusCode).toBe(HttpCode.OK);
+    });
+
+    it(`Returns deleted article`, () => {
+      expect(response.body).toBeTruthy();
+    });
+
+    it(`Category count is 2 now`, async () => {
+      response = await request(app)
+        .get(`/comments`);
+
+      expect(response.body.length).toBe(2);
+    });
+
+  });
 });
 

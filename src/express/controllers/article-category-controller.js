@@ -3,9 +3,10 @@
 const api = require(`../api`).getAPI();
 
 const ARTICLES_PER_PAGE = 8;
+const DEFAULT_PAGE_NUMBER = 1;
 
 const show = async (req, res) => {
-  const page = +req.query.page || 1;
+  const page = +req.query.page || DEFAULT_PAGE_NUMBER;
 
   const limit = ARTICLES_PER_PAGE;
   const offset = (page - 1) * ARTICLES_PER_PAGE;

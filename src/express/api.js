@@ -45,6 +45,30 @@ class API {
     return await this._load(`/categories`, {params: {count}});
   }
 
+  async createCategory(category) {
+    return await this._load(`/categories`, {
+      method: HttpMethod.POST,
+      data: {
+        category
+      }
+    });
+  }
+
+  async updateCategory(id, category) {
+    return await this._load(`/categories/edit/${id}`, {
+      method: HttpMethod.PUT,
+      data: {
+        category
+      }
+    });
+  }
+
+  async deleteCategory(id) {
+    return await this._load(`/categories/${id}`, {
+      method: HttpMethod.DELETE,
+    });
+  }
+
   async createArticle(data) {
     return await this._load(`/articles`, {
       method: HttpMethod.POST,
@@ -56,6 +80,12 @@ class API {
     return await this._load(`/articles/${data.id}`, {
       method: HttpMethod.PUT,
       data
+    });
+  }
+
+  async deleteArticle(id) {
+    return await this._load(`/articles/${id}`, {
+      method: HttpMethod.DELETE
     });
   }
 
@@ -73,6 +103,10 @@ class API {
     });
   }
 
+  async getComments() {
+    return await this._load(`/comments`);
+  }
+
   async getLastComments(limit) {
     return await this._load(`/comments/last`, {params: {limit}});
   }
@@ -81,6 +115,12 @@ class API {
     return this._load(`/user/auth`, {
       method: HttpMethod.POST,
       data: {email, password}
+    });
+  }
+
+  async deleteComment(id) {
+    return await this._load(`/comments/${id}`, {
+      method: HttpMethod.DELETE
     });
   }
 

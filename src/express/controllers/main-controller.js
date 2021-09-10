@@ -6,10 +6,10 @@ const {getSessionError} = require(`../utils`);
 const ARTICLES_PER_PAGE = 8;
 const HOT_ARTICLES_LIMIT = 4;
 const LAST_COMMENTS_LIMIT = 4;
+const DEFAULT_PAGE_NUMBER = 1;
 
 const showMain = async (req, res) => {
-  const page = +req.query.page || 1;
-
+  const page = +req.query.page || DEFAULT_PAGE_NUMBER;
   const limit = ARTICLES_PER_PAGE;
   const offset = (page - 1) * ARTICLES_PER_PAGE;
 
@@ -43,32 +43,34 @@ const showMain = async (req, res) => {
 
 const showSearch = async (req, res) => {
   const {search} = req.query;
+  let results = [];
 
   try {
-    const results = await api.search(search);
-
-    res.render(`search`, {
-      results,
-      search,
-      user: req.session.user,
-    });
-  } catch (error) {
-    res.render(`search`, {
-      results: [],
-      search,
-      user: req.session.user,
-    });
+    results = await api.search(search);
+  } catch (err) {
+    console.info(err.message);
   }
+
+  res.render(`search`, {
+    results,
+    search,
+    user: req.session.user,
+  });
 };
 
 const showLogin = (req, res) => {
   const error = getSessionError(req);
 
-  res.render(`auth`, {currentUrl: req.url, error});
+  res.render(`auth`, {
+    currentUrl: req.url,
+    error,
+    csrfToken: req.csrfToken(),
+  });
 };
 
 const loginUser = async (req, res) => {
   const {email, password} = req.body;
+
   try {
     req.session.user = await api.auth(email, password);
     res.redirect(`/`);

@@ -33,9 +33,37 @@ class CategoryService {
       });
 
       return result.map((it) => it.get());
-    } else {
-      return await this._Category.findAll({raw: true});
     }
+
+    return await this._Category.findAll({
+      raw: true
+    });
+  }
+
+  async create({category}) {
+    return await this._Category.create({
+      title: category
+    });
+  }
+
+  async update(id, {category}) {
+    return await this._Category.update({
+      title: category
+    }, {
+      where: {id},
+    });
+  }
+
+  async delete(id) {
+    return await this._Category.destroy({
+      where: {id}
+    });
+  }
+
+  async hasArticles(id) {
+    const category = await this._Category.findByPk(id);
+
+    return Boolean(category && await category.countArticles());
   }
 }
 
