@@ -2,10 +2,9 @@
 
 const api = require(`../api`).getAPI();
 const {getSessionError} = require(`../utils`);
+const {HOT_ARTICLES_LIMIT, LAST_COMMENTS_LIMIT} = require(`../../constants`);
 
 const ARTICLES_PER_PAGE = 8;
-const HOT_ARTICLES_LIMIT = 4;
-const LAST_COMMENTS_LIMIT = 4;
 const DEFAULT_PAGE_NUMBER = 1;
 
 const showMain = async (req, res) => {

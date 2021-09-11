@@ -1,6 +1,7 @@
 'use strict';
 
 const {Router} = require(`express`);
+const {eventEmitter} = require(`../event-emitter`);
 const {HttpCode} = require(`../../constants`);
 
 module.exports = (app, service) => {
@@ -29,6 +30,7 @@ module.exports = (app, service) => {
     const {id} = req.params;
 
     const comment = await service.drop(id);
+    eventEmitter.emit(`comments:updated`);
 
     return res
       .status(HttpCode.OK)

@@ -9,6 +9,7 @@ const commentExist = require(`../middlewares/comment-exist`);
 const articleSchema = require(`../joi-schemas/article-schema`);
 const commentSchema = require(`../joi-schemas/comment-schema`);
 const idSchema = require(`../joi-schemas/id-schema`);
+const {eventEmitter} = require(`../event-emitter`);
 
 module.exports = (app, articleService, commentService) => {
   const route = new Router();
@@ -81,6 +82,7 @@ module.exports = (app, articleService, commentService) => {
   async (req, res) => {
     const {articleId} = req.params;
     const article = await articleService.drop(articleId);
+    eventEmitter.emit(`comments:updated`);
 
     return res
       .status(HttpCode.OK)
@@ -108,6 +110,7 @@ module.exports = (app, articleService, commentService) => {
     const {articleId} = req.params;
 
     const comment = await commentService.create(articleId, newComment);
+    eventEmitter.emit(`comments:updated`);
 
     return res
       .status(HttpCode.CREATED)

@@ -4,7 +4,7 @@ const {UserRole} = require(`../../constants`);
 
 const capitalized = ([first, ...rest]) => `${first}${rest.join(``).toLowerCase()}`;
 
-const createAliases = (userRoleId) => {
+const createRoleAliases = (userRoleId) => {
   const roles = Object.keys(UserRole);
 
   return roles.reduce((acc, role) => {
@@ -30,7 +30,7 @@ class UserService {
         email: userData.email,
         avatar: userData.avatar,
         password: userData.passwordHash,
-        roleId: 2,
+        roleId: UserRole.READER,
       });
 
       return user.get();
@@ -52,7 +52,7 @@ class UserService {
   addRoleAlias(user) {
     return {
       ...user,
-      ...createAliases(user.roleId)
+      ...createRoleAliases(user.roleId)
     };
   }
 }
