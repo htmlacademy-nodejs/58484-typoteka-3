@@ -7,10 +7,16 @@ const MOCKS_FILE_NAME = `mocks.json`;
 const MOCKS_DB_FILE_NAME = `fill-db.sql`;
 const HOT_ARTICLES_LIMIT = 4;
 const LAST_COMMENTS_LIMIT = 4;
+
+const SocketEvent = {
+  COMMENTS_UPDATED: `comments:updated`
+};
+
 const ExitCode = {
   SUCCESS: 0,
   ERROR: 1,
 };
+
 const HttpCode = {
   OK: 200,
   CREATED: 201,
@@ -89,4 +95,5 @@ module.exports = {
   LoginMessage,
   UserRole,
   CategoryMessage,
+  SocketEvent,
 };

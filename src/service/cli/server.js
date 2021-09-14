@@ -7,7 +7,7 @@ const session = require(`../lib/session`);
 
 const {ChalkTheme} = require(`./chalk-theme`);
 const {success, error} = ChalkTheme.server;
-const {HttpCode, HOT_ARTICLES_LIMIT, LAST_COMMENTS_LIMIT} = require(`../../constants`);
+const {HttpCode, HOT_ARTICLES_LIMIT, LAST_COMMENTS_LIMIT, SocketEvent} = require(`../../constants`);
 const {getLogger} = require(`../lib/logger`);
 const postsRouter = require(`./routes/posts`);
 const apiRoutes = require(`../api`);
@@ -55,13 +55,13 @@ app.use((err, _req, _res, _next) => {
 
 // Socket.io
 io.on(`connection`, (socket) => {
-  eventEmitter.on(`comments:updated`, async () => {
+  eventEmitter.on(SocketEvent.COMMENTS_UPDATED, async () => {
     const [lastComments, hotArticles] = await Promise.all([
       (new CommentService(sequelize).getLastComments(LAST_COMMENTS_LIMIT)),
       (new ArticleService(sequelize).getHotArticles(HOT_ARTICLES_LIMIT))
     ]);
 
-    socket.broadcast.emit(`comments:updated`, JSON.stringify({lastComments, hotArticles}));
+    socket.broadcast.emit(SocketEvent.COMMENTS_UPDATED, JSON.stringify({lastComments, hotArticles}));
   });
 });
 

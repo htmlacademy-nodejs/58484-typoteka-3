@@ -1,7 +1,7 @@
 'use strict';
 
 const {Router} = require(`express`);
-const {HttpCode} = require(`../../constants`);
+const {HttpCode, SocketEvent} = require(`../../constants`);
 const bodyValidator = require(`../middlewares/body-validator`);
 const paramValidator = require(`../middlewares/param-validator`);
 const articleExist = require(`../middlewares/article-exist`);
@@ -82,7 +82,7 @@ module.exports = (app, articleService, commentService) => {
   async (req, res) => {
     const {articleId} = req.params;
     const article = await articleService.drop(articleId);
-    eventEmitter.emit(`comments:updated`);
+    eventEmitter.emit(SocketEvent.COMMENTS_UPDATED);
 
     return res
       .status(HttpCode.OK)
@@ -110,7 +110,7 @@ module.exports = (app, articleService, commentService) => {
     const {articleId} = req.params;
 
     const comment = await commentService.create(articleId, newComment);
-    eventEmitter.emit(`comments:updated`);
+    eventEmitter.emit(SocketEvent.COMMENTS_UPDATED);
 
     return res
       .status(HttpCode.CREATED)
