@@ -1,5 +1,6 @@
 'use strict';
-const SOCKET_PORT = 4000;
+
+const SOCKET_PORT = 3000;
 const TRUNCATE_LIMIT = 100;
 
 const socket = io(`http://localhost:${SOCKET_PORT}`);
