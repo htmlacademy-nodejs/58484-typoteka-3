@@ -17,7 +17,6 @@ const {eventEmitter} = require(`../event-emitter`);
 
 const API_PREFIX = `/api`;
 const DEFAULT_PORT = 3000;
-const SOCKET_PORT = 4000;
 
 const app = express();
 const server = http.createServer(app);
@@ -66,10 +65,6 @@ io.on(`connection`, (socket) => {
   });
 });
 
-server.listen(SOCKET_PORT, () => {
-  console.log(`[ws]: Ожидаю подключений на порт ${SOCKET_PORT}`);
-});
-
 module.exports = {
   name: `--server`,
   async run(args) {
@@ -87,7 +82,7 @@ module.exports = {
     const port = Number.parseInt(customPort, 10) || DEFAULT_PORT;
 
     try {
-      await app.listen(port);
+      await server.listen(port);
     } catch (err) {
       return logger.error(error(`An error occured: ${err.message}`));
     }
