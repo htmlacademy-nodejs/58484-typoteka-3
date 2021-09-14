@@ -14,7 +14,7 @@ block content
               li.publication__list-item
                 .publication__header
                   img.publication__list-image(src=`/img/${user.avatar}` width='20' height='20' alt='Аватар пользователя')
-                  b.publication__list-name #{user.fullName}
+                  b.publication__list-name #{user.firstName} #{user.lastName}
                   +formatDate(comment.createdAt, true)(class='publication__item-time')
                 a.publication__item-text(href=`/articles/${comment.articleId}#post-comments`) #{comment.text}
                 p.publication__text-strong #{article.title}

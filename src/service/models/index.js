@@ -54,7 +54,8 @@ const define = (sequelize) => {
   // Article <-> Comment
   Article.hasMany(Comment, {
     as: Aliase.COMMENTS,
-    foreignKey: `articleId`
+    foreignKey: `articleId`,
+    onDelete: `CASCADE`
   });
   Comment.belongsTo(Article, {
     as: Aliase.ARTICLE,

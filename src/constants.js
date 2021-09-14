@@ -5,6 +5,8 @@ const DEFAULT_COMMAND = `--help`;
 const USER_ARGV_INDEX = 2;
 const MOCKS_FILE_NAME = `mocks.json`;
 const MOCKS_DB_FILE_NAME = `fill-db.sql`;
+const HOT_ARTICLES_LIMIT = 4;
+const LAST_COMMENTS_LIMIT = 4;
 const ExitCode = {
   SUCCESS: 0,
   ERROR: 1,
@@ -75,6 +77,8 @@ module.exports = {
   USER_ARGV_INDEX,
   MOCKS_FILE_NAME,
   MOCKS_DB_FILE_NAME,
+  HOT_ARTICLES_LIMIT,
+  LAST_COMMENTS_LIMIT,
   ExitCode,
   HttpCode,
   HttpMethod,
