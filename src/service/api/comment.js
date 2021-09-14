@@ -2,7 +2,7 @@
 
 const {Router} = require(`express`);
 const {eventEmitter} = require(`../event-emitter`);
-const {HttpCode} = require(`../../constants`);
+const {HttpCode, SocketEvent} = require(`../../constants`);
 
 module.exports = (app, service) => {
   const route = new Router();
@@ -30,7 +30,7 @@ module.exports = (app, service) => {
     const {id} = req.params;
 
     const comment = await service.drop(id);
-    eventEmitter.emit(`comments:updated`);
+    eventEmitter.emit(SocketEvent.COMMENTS_UPDATED);
 
     return res
       .status(HttpCode.OK)
