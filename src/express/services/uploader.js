@@ -23,8 +23,5 @@ const createStorage = (uploadDir) => {
 const storage = createStorage(uploadDirAbsolute);
 
 module.exports = {
-  uploader: multer({storage}),
-  getUploader(uploadDir) {
-    return multer({storage: createStorage(uploadDir)});
-  }
+  uploader: multer({storage})
 };

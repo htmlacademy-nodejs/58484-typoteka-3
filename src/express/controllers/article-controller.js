@@ -4,6 +4,15 @@ const api = require(`../api`).getAPI();
 
 const {getSessionError} = require(`../utils`);
 
+const getArticleData = ({body, file}) => ({
+  title: body.title,
+  publishedAt: body.date,
+  announce: body.announcement,
+  fullText: body[`full-text`],
+  categories: Object.keys(body.category || {}),
+  ...(file ? {image: file.filename} : {})
+});
+
 const show = async (req, res) => {
   const {id} = req.params;
   const error = getSessionError(req);
@@ -49,22 +58,13 @@ const edit = async (req, res) => {
 };
 
 const update = async (req, res) => {
-  const {body, file} = req;
   const {id} = req.params;
 
-  const articleData = {
-    id,
-    title: body.title,
-    publishedAt: body.date,
-    announce: body.announcement,
-    fullText: body[`full-text`],
-    categories: Object.keys(body.category || {}),
-    ...(file ? {image: file.filename} : {})
-  };
+  const articleData = getArticleData(req);
 
   try {
-    const article = await api.updateArticle(articleData);
-    res.redirect(`/articles/${article.id}`);
+    await api.updateArticle({id, data: articleData});
+    res.redirect(`/articles/${id}`);
   } catch (err) {
     req.session.error = err.response.data;
     res.redirect(`back`);
@@ -84,16 +84,7 @@ const create = async (req, res) => {
 };
 
 const store = async (req, res) => {
-  const {body, file} = req;
-
-  const articleData = {
-    title: body.title,
-    publishedAt: body.date,
-    announce: body.announcement,
-    fullText: body[`full-text`],
-    categories: Object.keys(body.category || {}),
-    ...(file ? {image: file.filename} : {})
-  };
+  const articleData = getArticleData(req);
 
   try {
     await api.createArticle(articleData);

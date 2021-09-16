@@ -1,7 +1,7 @@
 'use strict';
 
 const Sequelize = require(`sequelize`);
-const Aliase = require(`../models/aliase`);
+const Alias = require(`../models/alias`);
 
 class ArticleService {
   constructor(sequelize) {
@@ -29,9 +29,9 @@ class ArticleService {
   }
 
   async findAll(needComments) {
-    const include = [Aliase.CATEGORIES];
+    const include = [Alias.CATEGORIES];
     if (needComments) {
-      include.push(Aliase.COMMENTS);
+      include.push(Alias.COMMENTS);
     }
     const articles = await this._Article.findAll({
       include,
@@ -44,7 +44,7 @@ class ArticleService {
     const {count, rows} = await this._Article.findAndCountAll({
       limit,
       offset,
-      include: [Aliase.CATEGORIES, Aliase.COMMENTS],
+      include: [Alias.CATEGORIES, Alias.COMMENTS],
       distinct: true,
       order: [[`created_at`, `DESC`]],
     });
@@ -52,10 +52,10 @@ class ArticleService {
   }
 
   findOne(id, needComments) {
-    const include = [Aliase.CATEGORIES];
+    const include = [Alias.CATEGORIES];
 
     if (needComments) {
-      include.push(Aliase.COMMENTS);
+      include.push(Alias.COMMENTS);
     }
 
     return this._Article.findByPk(id, {include});
@@ -79,7 +79,7 @@ class ArticleService {
       category.getArticles({
         limit, offset,
         nest: true,
-        include: [Aliase.CATEGORIES, Aliase.COMMENTS],
+        include: [Alias.CATEGORIES, Alias.COMMENTS],
       })
     ]);
 
@@ -90,7 +90,7 @@ class ArticleService {
     return await this._Article.findAll({
       include: [{
         model: this._Comment,
-        as: Aliase.COMMENTS,
+        as: Alias.COMMENTS,
         attributes: [],
         duplicating: false
       }],

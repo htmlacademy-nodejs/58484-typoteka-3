@@ -1,6 +1,6 @@
 'use strict';
 
-const Aliase = require(`../models/aliase`);
+const Alias = require(`../models/alias`);
 
 class CommentService {
   constructor(sequelize) {
@@ -25,7 +25,7 @@ class CommentService {
         nest: true,
         include: {
           model: this._User,
-          as: Aliase.USER,
+          as: Alias.USER,
           attributes: {
             exclude: [`password`]
           }
@@ -40,14 +40,14 @@ class CommentService {
       include: [
         {
           model: this._User,
-          as: Aliase.USER,
+          as: Alias.USER,
           attributes: {
             exclude: [`password`]
           }
         },
         {
           model: this._Article,
-          as: Aliase.ARTICLE
+          as: Alias.ARTICLE
         }
       ],
       order: [[`created_at`, `DESC`]],
@@ -70,7 +70,7 @@ class CommentService {
     return this._Comment.findAll({
       include: {
         model: this._User,
-        as: Aliase.USER,
+        as: Alias.USER,
         attributes: {
           exclude: [`password`]
         }
