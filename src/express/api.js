@@ -76,8 +76,8 @@ class API {
     });
   }
 
-  async updateArticle(data) {
-    return await this._load(`/articles/${data.id}`, {
+  async updateArticle({id, data}) {
+    return await this._load(`/articles/${id}`, {
       method: HttpMethod.PUT,
       data
     });

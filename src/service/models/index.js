@@ -1,6 +1,6 @@
 'use strict';
 
-const Aliase = require(`./aliase`);
+const Alias = require(`./alias`);
 
 const defineRole = require(`./role`);
 const defineUser = require(`./user`);
@@ -20,55 +20,55 @@ const define = (sequelize) => {
 
   // User <-> Role
   User.belongsTo(Role, {
-    as: Aliase.ROLE,
+    as: Alias.ROLE,
     foreignKey: `roleId`,
   });
   Role.hasMany(User, {
-    as: Aliase.USERS,
+    as: Alias.USERS,
     foreignKey: `roleId`
   });
 
   // Article <-> User
   User.hasMany(Article, {
-    as: Aliase.ARTICLES,
+    as: Alias.ARTICLES,
     foreignKey: `userId`
   });
   Article.belongsTo(User, {
-    as: Aliase.USER,
+    as: Alias.USER,
     foreignKey: `userId`
   });
 
   // Article <- ArticleCategory -> Category
   Article.belongsToMany(Category, {
     through: ArticleCategory,
-    as: Aliase.CATEGORIES
+    as: Alias.CATEGORIES
   });
   Category.belongsToMany(Article, {
     through: ArticleCategory,
-    as: Aliase.ARTICLES
+    as: Alias.ARTICLES
   });
   Category.hasMany(ArticleCategory, {
-    as: Aliase.ARTICLE_CATEGORY
+    as: Alias.ARTICLE_CATEGORY
   });
 
   // Article <-> Comment
   Article.hasMany(Comment, {
-    as: Aliase.COMMENTS,
+    as: Alias.COMMENTS,
     foreignKey: `articleId`,
     onDelete: `CASCADE`
   });
   Comment.belongsTo(Article, {
-    as: Aliase.ARTICLE,
+    as: Alias.ARTICLE,
     foreignKey: `articleId`
   });
 
   // User <-> Comment
   User.hasMany(Comment, {
-    as: Aliase.COMMENT,
+    as: Alias.COMMENT,
     foreignKey: `userId`
   });
   Comment.belongsTo(User, {
-    as: Aliase.USER,
+    as: Alias.USER,
     foreignKey: `userId`
   });
 

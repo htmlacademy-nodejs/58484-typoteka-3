@@ -1,7 +1,7 @@
 'use strict';
 
 const Sequelize = require(`sequelize`);
-const Aliase = require(`../models/aliase`);
+const Alias = require(`../models/alias`);
 
 class CategoryService {
   constructor(sequelize) {
@@ -27,7 +27,7 @@ class CategoryService {
         group: [Sequelize.col(`Category.id`)],
         include: [{
           model: this._ArticleCategory,
-          as: Aliase.ARTICLE_CATEGORY,
+          as: Alias.ARTICLE_CATEGORY,
           attributes: []
         }]
       });
