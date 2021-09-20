@@ -15,15 +15,15 @@ const {
   MockFileName,
 } = require(`../../constants`);
 
+const DEFAULT_COUNT = 1;
+const MAX_COUNT_LIMIT = 1000;
+const USER_COUNT = 5;
+
 const {
   success,
   error,
   warning,
 } = ChalkTheme.filldb;
-
-const DEFAULT_COUNT = 1;
-const MAX_COUNT_LIMIT = 1000;
-const USER_COUNT = 5;
 
 module.exports = {
   name: `--filldb`,
