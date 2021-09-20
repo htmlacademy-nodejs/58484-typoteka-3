@@ -14,13 +14,6 @@ class ReadFileService {
     return JSON.parse(await this._read());
   }
 
-  parseError(err) {
-    return {
-      code: HttpCode.INTERNAL_SERVER_ERROR,
-      message: `Server error: ${err.message}`,
-    };
-  }
-
   async _isFileExists() {
     try {
       await fs.access(this.path);
@@ -36,6 +29,13 @@ class ReadFileService {
     }
 
     return DEFAULT_CONTENT;
+  }
+
+  static parseError(err) {
+    return {
+      code: HttpCode.INTERNAL_SERVER_ERROR,
+      message: `Server error: ${err.message}`,
+    };
   }
 }
 

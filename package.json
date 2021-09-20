@@ -7,7 +7,7 @@
     "start": "npm run start-servers",
     "cli": "cross-env LOG_LEVEL=info NODE_ENV=development node -r dotenv/config ./src/service/service.js",
     "start-back-server": "cross-env LOG_LEVEL=info NODE_ENV=development nodemon -r dotenv/config ./src/service/service.js --server",
-    "start-front-server": "cross-env LOG_LEVEL=info NODE_ENV=development nodemon -r dotenv/config ./src/express/",
+    "start-front-server": "cross-env LOG_LEVEL=info NODE_ENV=development nodemon -r dotenv/config ./src/express/express.js",
     "start-servers": "concurrently --names \"BACK,FRONT\" --prefix-colors \"green,blue\" \"npm run start-back-server\" \"npm run start-front-server\"",
     "test::rest": "npm run eslint && npm run jest",
     "test": "npm run test::rest",

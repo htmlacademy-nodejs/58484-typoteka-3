@@ -9,12 +9,11 @@ const {generateSuperUser} = require(`./factories/generate-superuser`);
 const {generateRoles} = require(`./factories/generate-roles`);
 const {getMockData} = require(`./factories/get-mock-data`);
 const {getFileContent} = require(`./services/get-file-content`);
-
+const {ChalkTheme} = require(`./chalk-theme`);
 const {
   ExitCode,
   MockFileName,
 } = require(`../../constants`);
-const {ChalkTheme} = require(`./chalk-theme`);
 
 const {
   success,

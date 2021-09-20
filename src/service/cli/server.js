@@ -4,13 +4,14 @@ const express = require(`express`);
 const http = require(`http`);
 const sequelize = require(`../lib/sequelize`);
 const session = require(`../lib/session`);
+const socketIO = require(`socket.io`);
 
 const {ChalkTheme} = require(`./chalk-theme`);
 const {success, error} = ChalkTheme.server;
 const {HttpCode, HOT_ARTICLES_LIMIT, LAST_COMMENTS_LIMIT, SocketEvent} = require(`../../constants`);
 const {getLogger} = require(`../lib/logger`);
 const postsRouter = require(`./routes/posts`);
-const apiRoutes = require(`../api`);
+const apiRoutes = require(`../lib/api-routes`);
 const CommentService = require(`../data-service/comment`);
 const ArticleService = require(`../data-service/article`);
 const {eventEmitter} = require(`../event-emitter`);
@@ -20,7 +21,7 @@ const DEFAULT_PORT = 3000;
 
 const app = express();
 const server = http.createServer(app);
-const io = require(`socket.io`)(server, {
+const io = socketIO(server, {
   cors: {
     origin: `*`,
   }
