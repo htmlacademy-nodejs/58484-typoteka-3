@@ -16,11 +16,6 @@ class API {
     });
   }
 
-  async _load(url, options) {
-    const response = await this._http.request({url, ...options});
-    return response.data;
-  }
-
   async getArticles({offset, limit, comments} = {}) {
     return await this._load(`/articles`, {params: {offset, limit, comments}});
   }
@@ -122,6 +117,11 @@ class API {
     return await this._load(`/comments/${id}`, {
       method: HttpMethod.DELETE
     });
+  }
+
+  async _load(url, options) {
+    const response = await this._http.request({url, ...options});
+    return response.data;
   }
 
 }
