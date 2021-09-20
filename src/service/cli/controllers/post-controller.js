@@ -10,7 +10,7 @@ const showPosts = async (req, res) => {
     const mocks = await readFileService.getJSON();
     res.json(mocks);
   } catch (err) {
-    const {code, message} = readFileService.parseError(err);
+    const {code, message} = ReadFileService.parseError(err);
     res
       .status(code)
       .send(message);
