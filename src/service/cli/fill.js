@@ -8,23 +8,22 @@ const {generateArticles} = require(`./factories/generate-articles`);
 const {generateUsers} = require(`./factories/generate-users`);
 const {getFileContent} = require(`./services/get-file-content`);
 const {getMockData} = require(`./factories/get-mock-data`);
-
+const {ChalkTheme} = require(`./chalk-theme`);
 const {
   ExitCode,
   MOCKS_DB_FILE_NAME,
   MockFileName,
 } = require(`../../constants`);
-const {ChalkTheme} = require(`./chalk-theme`);
+
+const DEFAULT_COUNT = 1;
+const MAX_COUNT_LIMIT = 1000;
+const USER_COUNT = 5;
 
 const {
   success,
   error,
   warning,
 } = ChalkTheme.filldb;
-
-const DEFAULT_COUNT = 1;
-const MAX_COUNT_LIMIT = 1000;
-const USER_COUNT = 5;
 
 const createFile = async (content) => {
   try {
