@@ -2,7 +2,7 @@
 
 const {UserRole} = require(`../../constants`);
 
-const capitalized = ([first, ...rest]) => `${first}${rest.join(``).toLowerCase()}`;
+const capitalized = ([first, ...rest]) => first + rest.join(``).toLowerCase();
 
 const createRoleAliases = (userRoleId) => {
   const roles = Object.keys(UserRole);
